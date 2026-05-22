@@ -1,3 +1,4 @@
+from wakepy import keep
 import time
 from datetime import datetime
 import traceback
@@ -41,6 +42,10 @@ driver = webdriver.Chrome(options=chrome_options)
 input("\nPastikan Anda sudah login di browser, lalu tekan Enter di sini untuk mulai otomatisasi...")
 start_time = datetime.now()
 
+# Mengaktifkan wakepy agar layar tetap menyala (presenting mode)
+screen_awake = keep.presenting()
+screen_awake.__enter__()
+
 # ==========================================
 # 1. PERULANGAN UNTUK SETIAP PROYEK UNIK
 # ==========================================
@@ -53,19 +58,30 @@ for target_proyek in unique_projects:
     # Memfilter baris data hanya untuk proyek ini
     df_filtered = df[df['proyek_2'].astype(str) == str(target_proyek)]
     
+    # Mengambil link dari dataframe kolom 'link'
+    input_link = str(df_filtered['link'].iloc[0]).strip() if 'link' in df_filtered.columns else ""
+    
+    # Mengekstrak kode proyek dari link setelah "view/"
+    if "view/" in input_link:
+        kode_proyek = input_link.split("view/")[-1].strip()
+        # Membersihkan jika bagian anchor misal #rab terbawa
+        if "#" in kode_proyek:
+            kode_proyek = kode_proyek.split("#")[0]
+    else:
+        kode_proyek = input_link.strip()  # Fallback jika Excel hanya berisi kode angka
+
     pend_1 = df_filtered['pend_1'].iloc[0] if 'pend_1' in df_filtered.columns else "Tidak ada"
     pers_1 = df_filtered['pers_1'].iloc[0] if 'pers_1' in df_filtered.columns else "Tidak ada"
     pend_1_formatted = f"{pend_1:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
     pers_1_formatted = f"{pers_1:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
 
-    print(f"\n==========================================")
-    print(f"PROYEK: {target_proyek}")
-    print(f"PENDAPATAN RKAP REAL: {pend_1_formatted}")
-    print(f"PERSONIL RKAP REAL  : {pers_1_formatted}")
+    print(f"\n\n==========================================")
+    print(f"PROGRESS SAAT INI     : {updated_count} Sukses | {skipped_count} Dilewati | {mismatch_count} Mismatch")
+    print(f"NAMA PROYEK RKAP REAL : {target_proyek}")
+    print(f"KODE PROYEK RKAP REAL : {kode_proyek}")
+    print(f"PENDAPATAN RKAP REAL  : {pend_1_formatted}")
+    print(f"PERSONIL RKAP REAL    : {pers_1_formatted}")
     print(f"==========================================")
-    
-    # Mengambil link dari dataframe kolom 'link'
-    input_link = str(df_filtered['link'].iloc[0]).strip() if 'link' in df_filtered.columns else ""
     
     if not input_link or input_link.lower() == "nan":
         print("⚠️ Link tidak ditemukan di data Excel. Melewati proyek ini...")
@@ -80,15 +96,6 @@ for target_proyek in unique_projects:
         skipped_count += 1
         continue
         
-    # Mengekstrak kode proyek dari link setelah "view/"
-    if "view/" in input_link:
-        kode_proyek = input_link.split("view/")[-1].strip()
-        # Membersihkan jika bagian anchor misal #rab terbawa
-        if "#" in kode_proyek:
-            kode_proyek = kode_proyek.split("#")[0]
-    else:
-        kode_proyek = input_link.strip()  # Fallback jika Excel hanya berisi kode angka
-
     # Validasi apakah kode_proyek valid (berisi angka)
     if not kode_proyek.isdigit():
         print(f"⚠️ Link tidak valid ({input_link}). Melewati proyek ini...")
@@ -148,7 +155,7 @@ for target_proyek in unique_projects:
             "b_jasa": "0"
         })
 
-    print(f"Berhasil memuat {len(dataset)} baris data untuk proyek tersebut.")
+    print(f"Berhasil memuat {len(dataset)-1} baris data untuk proyek tersebut.")
 
     # ==========================================
     # 2. PERULANGAN OTOMATISASI UNTUK SETIAP BULAN
@@ -159,20 +166,20 @@ for target_proyek in unique_projects:
             continue
         
         while True:
-            print(f"\n------------------------------------------")
-            print(f"MULAI MEMPROSES BULAN: {data["bulan"].upper()}")
-            print(f"PROYEK : {target_proyek}")
-            print(f"KODE   : {kode_proyek}")
-            print(f"------------------------------------------")
+            # print(f"\n------------------------------------------")
+            # print(f"MULAI MEMPROSES BULAN: {data["bulan"].upper()}")
+            # print(f"PROYEK : {target_proyek}")
+            # print(f"KODE   : {kode_proyek}")
+            # print(f"------------------------------------------")
             
             try:
-                print(f"[{target_bulan}] Mencari dan mengklik link...")
+                # print(f"[{target_bulan}] Mencari dan mengklik link...")
                 link_bulan = WebDriverWait(driver, 10).until(
                     EC.presence_of_element_located((By.XPATH, f"//div[@id='rab-bulanan']//a[text()='{target_bulan}']"))
                 )
                 driver.execute_script("arguments[0].click();", link_bulan)
 
-                print(f"[{target_bulan}] Menunggu pop-up modal RAB muncul...")
+                # print(f"[{target_bulan}] Menunggu pop-up modal RAB muncul...")
                 WebDriverWait(driver, 15).until(
                     EC.visibility_of_element_located((By.ID, "rabModal"))
                 )
@@ -181,7 +188,7 @@ for target_proyek in unique_projects:
                     if id_elemen == "bulan":
                         continue
                         
-                    print(f"[{target_bulan}] Mengisi {id_elemen} -> {nilai_input}")
+                    # print(f"[{target_bulan}] Mengisi {id_elemen} -> {nilai_input}")
                     
                     input_field = WebDriverWait(driver, 10).until(
                         EC.element_to_be_clickable((By.ID, id_elemen))
@@ -194,24 +201,24 @@ for target_proyek in unique_projects:
                     
                     time.sleep(0.2)
 
-                print(f"[{target_bulan}] Memicu kalkulasi rumus web...")
+                # print(f"[{target_bulan}] Memicu kalkulasi rumus web...")
                 input_field.send_keys(Keys.TAB) 
                 time.sleep(1.5) 
 
-                print(f"[{target_bulan}] Memastikan tombol Simpan aktif...")
+                # print(f"[{target_bulan}] Memastikan tombol Simpan aktif...")
                 tombol_simpan = WebDriverWait(driver, 10).until(
                     EC.element_to_be_clickable((By.ID, "rab-confirmation"))
                 )
                 
-                print(f"[{target_bulan}] Mengklik tombol Simpan...")
+                # print(f"[{target_bulan}] Mengklik tombol Simpan...")
                 driver.execute_script("arguments[0].click();", tombol_simpan)
 
-                print(f"[{target_bulan}] Menunggu sinkronisasi server...")
+                # print(f"[{target_bulan}] Menunggu sinkronisasi server...")
                 WebDriverWait(driver, 60).until(
                     EC.invisibility_of_element_located((By.ID, "rabModal"))
                 )
                 
-                print(f"[{target_bulan}] DATA BERHASIL DIINPUT DAN DISIMPAN!")
+                print(f"✅ DATA [{data["bulan"].capitalize()}] BERHASIL DIINPUT DAN DISIMPAN!")
                 time.sleep(2)
                 break  # Berhasil, memecah (keluar) dari loop `while` untuk lanjut ke iterasi `for` berikutnya
 
@@ -229,6 +236,9 @@ for target_proyek in unique_projects:
 
     # Menambah hitungan proyek yang sukses diproses setelah semua perulangan bulan untuk proyek ini selesai
     updated_count += 1
+
+# Mematikan wakepy (mengembalikan pengaturan layar ke normal)
+screen_awake.__exit__(None, None, None)
 
 end_time = datetime.now()
 total_duration = end_time - start_time
