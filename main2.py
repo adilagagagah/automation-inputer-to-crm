@@ -26,7 +26,9 @@ def bersihkan_teks(teks):
 # 0. FORM KONTROL
 # ==========================================
 print("\nMembaca dan memproses file Excel...")
-df = pd.read_excel('private/SIBPP_RKAP.xlsx')
+excel_file = 'private/REAL_RKAP.xlsx'
+excel_sheet = 'SIBPP_RKAP'
+df = pd.read_excel(excel_file, sheet_name=excel_sheet)
 
 # Mendapatkan daftar proyek unik dari kolom 'proyek_2'
 unique_projects = df['proyek_2'].dropna().unique()
@@ -244,14 +246,25 @@ end_time = datetime.now()
 total_duration = end_time - start_time
 total_duration_str = str(total_duration).split('.')[0] # Menghilangkan milidetik agar tampilan lebih rapi
 
-print("\n==========================================")
-print("PROSES SELESAI! Seluruh data proyek telah diinput.")
-print(f"Waktu Mulai        : {start_time.strftime('%Y-%m-%d %H:%M:%S')}")
-print(f"Waktu Selesai      : {end_time.strftime('%Y-%m-%d %H:%M:%S')}")
-print(f"Total Durasi       : {total_duration_str}")
-print(f"Total Proyek       : {total_projects}")
-print(f"Berhasil Diupdate  : {updated_count}")
-print(f"Proyek Dilewati    : {skipped_count}")
-print(f"Portofolio Mismatch: {mismatch_count}")
-print("==========================================")
+summary_text = (
+    "==========================================\n"
+    "PROSES SELESAI! Seluruh data proyek telah diinput.\n"
+    f"Sumber File Excel  : {excel_file}\n"
+    f"Sumber Sheet       : {excel_sheet}\n"
+    f"Waktu Mulai        : {start_time.strftime('%Y-%m-%d %H:%M:%S')}\n"
+    f"Waktu Selesai      : {end_time.strftime('%Y-%m-%d %H:%M:%S')}\n"
+    f"Total Durasi       : {total_duration_str}\n"
+    f"Total Proyek       : {total_projects}\n"
+    f"Berhasil Diupdate  : {updated_count}\n"
+    f"Proyek Dilewati    : {skipped_count}\n"
+    f"Portofolio Mismatch: {mismatch_count}\n"
+    "=========================================="
+)
+
+print("\n" + summary_text)
+
+# Menyimpan log ringkasan akhir ke output_log.txt
+with open("output_log.txt", "a", encoding="utf-8") as f:
+    f.write(summary_text + "\n\n")
+
 driver.quit()
