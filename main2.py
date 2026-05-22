@@ -13,7 +13,7 @@ from selenium.webdriver.common.keys import Keys
 # 0. FORM KONTROL
 # ==========================================
 print("\nMembaca dan memproses file Excel...")
-df = pd.read_excel('SIBPP_RKAP.xlsx')
+df = pd.read_excel('private/SIBPP_RKAP.xlsx')
 
 # Mendapatkan daftar proyek unik dari kolom 'proyek_2'
 unique_projects = df['proyek_2'].dropna().unique()
