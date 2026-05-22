@@ -1,4 +1,5 @@
 import time
+from datetime import datetime
 import traceback
 import pandas as pd
 from selenium import webdriver
@@ -38,6 +39,7 @@ driver = webdriver.Chrome(options=chrome_options)
 
 # Beri jeda agar user bisa memastikan sudah login di browser yang terbuka sebelum script berjalan otomatis
 input("\nPastikan Anda sudah login di browser, lalu tekan Enter di sini untuk mulai otomatisasi...")
+start_time = datetime.now()
 
 # ==========================================
 # 1. PERULANGAN UNTUK SETIAP PROYEK UNIK
@@ -228,8 +230,15 @@ for target_proyek in unique_projects:
     # Menambah hitungan proyek yang sukses diproses setelah semua perulangan bulan untuk proyek ini selesai
     updated_count += 1
 
+end_time = datetime.now()
+total_duration = end_time - start_time
+total_duration_str = str(total_duration).split('.')[0] # Menghilangkan milidetik agar tampilan lebih rapi
+
 print("\n==========================================")
 print("PROSES SELESAI! Seluruh data proyek telah diinput.")
+print(f"Waktu Mulai        : {start_time.strftime('%Y-%m-%d %H:%M:%S')}")
+print(f"Waktu Selesai      : {end_time.strftime('%Y-%m-%d %H:%M:%S')}")
+print(f"Total Durasi       : {total_duration_str}")
 print(f"Total Proyek       : {total_projects}")
 print(f"Berhasil Diupdate  : {updated_count}")
 print(f"Proyek Dilewati    : {skipped_count}")
