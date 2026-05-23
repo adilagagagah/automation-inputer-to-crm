@@ -232,7 +232,7 @@ for target_proyek in unique_projects:
                 
                 list_error.append(f"Proyek: {target_proyek} | Kode: {kode_proyek} | Bulan: {target_bulan}")
 
-                print("Merefresh halaman dan mencoba kembali untuk bulan yang sama...\n")
+                print("Merefresh halaman dan mencoba kembali untuk bulan yang sama...")
                 driver.refresh()
                 time.sleep(3) # Tunggu sejenak setelah refresh agar script siap membaca ulang web
 
@@ -270,6 +270,7 @@ if list_mismatch:
     for item in list_mismatch:
         summary_text += f"- {item}\n"
 
+list_error = list(set(list_error))
 if list_error:
     summary_text += "\nDetail Error Input Data:\n"
     for item in list_error:
