@@ -1,4 +1,6 @@
+import sys
 from wakepy import keep
+import subprocess
 import time
 from datetime import datetime
 import traceback
@@ -34,9 +36,28 @@ df = pd.read_excel(excel_file, sheet_name=excel_sheet)
 unique_projects = df['proyek_2'].dropna().unique()
 print(f"Ditemukan {len(unique_projects)} proyek unik.")
 
+# Menjalankan perintah CMD di latar belakang tanpa memblokir jalannya Python (menggunakan Popen)
 # "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" --remote-debugging-port=9222 --user-data-dir="C:\chrome-debug"
+print("\n[System] Mencoba membuka Google Chrome dalam Mode Debugging...")
+chrome_path = r"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
+port = "9222"
+user_data = r"C:\chrome-debug"
+try:
+    subprocess.Popen([
+        chrome_path, 
+        f"--remote-debugging-port={port}", 
+        f"--user-data-dir={user_data}"
+    ])
+    time.sleep(2) 
+    print("[System] Google Chrome berhasil dibuka.")
+
+except Exception as e:
+    print(f"[⚠️ ERROR] Gagal membuka Chrome secara otomatis. Pastikan jalur path benar: {e}")
+    print("Mencoba melanjutkan koneksi port jika Chrome sudah terbuka manual...")
+    sys.exit()
+
 chrome_options = Options()
-chrome_options.add_experimental_option("debuggerAddress", "127.0.0.1:9222")
+chrome_options.add_experimental_option("debuggerAddress", f"127.0.0.1:{port}")
 
 driver = webdriver.Chrome(options=chrome_options)
 
@@ -75,31 +96,11 @@ for target_proyek in unique_projects:
             kode_proyek = kode_proyek.split("#")[0]
     else:
         kode_proyek = input_link.strip()  # Fallback jika Excel hanya berisi kode angka
-        
-    if not input_link or input_link.lower() == "nan":
-        print("⚠️ Link tidak ditemukan di data Excel. Melewati proyek ini...")
-        skipped_count += 1
-        continue
-        
-    if input_link.lower() == "skip":
-        print(f"⏩ Terdeteksi instruksi 'skip' pada kolom link. Melewati proyek ini...")
-        list_skipped.append(f"Proyek: {target_proyek}")
-        skipped_count += 1
-        continue
-        
-    # Validasi apakah kode_proyek valid (berisi angka)
-    if not kode_proyek.isdigit():
-        print(f"⚠️ Link tidak valid ({input_link}). Melewati proyek ini...")
-        skipped_count += 1
-        continue
-        
-    # ==========================================
-    # MEMBUKA HALAMAN RKAP UNTUK CEK PORTOFOLIO
-    # ==========================================
+
+    # Membuka web untuk mendapatkan nama project CRM
     address_rkap = f"https://crm.ptsi.co.id/index.php/project/rkap/view/{kode_proyek}#rkap"
     driver.get(address_rkap)
-    print(f"\nSedang berada di laman {address_rkap} untuk cek Portofolio...")
-    time.sleep(3) # Beri jeda agar halaman sepenuhnya dimuat
+    time.sleep(2) # Beri jeda agar halaman sepenuhnya dimuat
     
     target_proyek_CRM = "-"
     try:
@@ -127,7 +128,29 @@ for target_proyek in unique_projects:
     print(f"PENDAPATAN RKAP REAL  : {pend_1_formatted}")
     print(f"PERSONIL RKAP REAL    : {pers_1_formatted}")
     print(f"==========================================")
-    
+        
+    if not input_link or input_link.lower() == "nan":
+        print("⚠️ Link tidak ditemukan di data Excel. Melewati proyek ini...")
+        skipped_count += 1
+        continue
+        
+    if input_link.lower() == "skip":
+        print(f"⏩ Terdeteksi instruksi 'skip' pada kolom link. Melewati proyek ini...")
+        list_skipped.append(f"Proyek: {target_proyek}")
+        skipped_count += 1
+        continue
+        
+    # Validasi apakah kode_proyek valid (berisi angka)
+    if not kode_proyek.isdigit():
+        print(f"⚠️ Link tidak valid ({input_link}). Melewati proyek ini...")
+        skipped_count += 1
+        continue
+        
+    # ==========================================
+    # MEMBUKA HALAMAN RKAP UNTUK CEK PORTOFOLIO
+    # ==========================================    
+    print(f"\nSedang berada di laman {address_rkap} untuk cek Portofolio...")
+
     portofolio_excel = str(df_filtered['Portofolio'].iloc[0]).strip() if 'Portofolio' in df_filtered.columns else ""
     if portofolio_excel and portofolio_excel.lower() != "nan":
         try:
@@ -155,7 +178,7 @@ for target_proyek in unique_projects:
     address_rab = f"https://crm.ptsi.co.id/index.php/project/rkap/view/{kode_proyek}#rab"
     driver.get(address_rab)
     print(f"Beralih ke laman {address_rab} untuk mulai input data RAB...")
-    time.sleep(3) # Beri jeda sebelum mulai klik bulan
+    time.sleep(2) # Beri jeda sebelum mulai klik bulan
     
     dataset = []
     for index, row in df_filtered.iterrows():
@@ -171,7 +194,8 @@ for target_proyek in unique_projects:
             "b_jasa": "0"
         })
 
-    print(f"Berhasil memuat {len(dataset)-1} baris data untuk proyek tersebut.")
+    print(f"✅ Berhasil memuat {len(dataset)-1} baris data untuk proyek tersebut.")
+    print(f"Mulai input data untuk seluruh bulan...")
 
     # ==========================================
     # 2. PERULANGAN OTOMATISASI UNTUK SETIAP BULAN
@@ -218,7 +242,7 @@ for target_proyek in unique_projects:
 
                 # print(f"[{target_bulan}] Memicu kalkulasi rumus web...")
                 input_field.send_keys(Keys.TAB) 
-                time.sleep(1.5) 
+                time.sleep(1) 
 
                 # print(f"[{target_bulan}] Memastikan tombol Simpan aktif...")
                 tombol_simpan = WebDriverWait(driver, 10).until(
@@ -234,7 +258,7 @@ for target_proyek in unique_projects:
                 )
                 
                 print(f"✅ DATA [{data["bulan"].capitalize()}] BERHASIL DIINPUT DAN DISIMPAN!")
-                time.sleep(2)
+                time.sleep(1)
                 break  # Berhasil, memecah (keluar) dari loop `while` untuk lanjut ke iterasi `for` berikutnya
 
             except Exception as e:
@@ -245,7 +269,7 @@ for target_proyek in unique_projects:
 
                 print("Merefresh halaman dan mencoba input ulang...")
                 driver.refresh()
-                time.sleep(3) # Tunggu sejenak setelah refresh agar script siap membaca ulang web
+                time.sleep(2) # Tunggu sejenak setelah refresh agar script siap membaca ulang web
 
     # Menambah hitungan proyek yang sukses diproses setelah semua perulangan bulan untuk proyek ini selesai
     updated_count += 1

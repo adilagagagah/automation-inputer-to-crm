@@ -1,0 +1,41 @@
+==========================================
+PROSES SELESAI! Seluruh data proyek telah diinput.
+Waktu Mulai        : 2026-05-22 14:55:50
+Waktu Selesai      : 2026-05-22 17:24:07
+Total Durasi       : 2:28:16
+Total Proyek       : 90
+Berhasil Diupdate  : 78
+Proyek Dilewati    : 12
+Portofolio Mismatch: 1
+==========================================
+
+==========================================
+PROSES SELESAI! Seluruh data proyek telah diinput.
+Sumber File Excel  : private/REAL_RKAP.xlsx
+Sumber Sheet       : SIBPP_RKAP
+Waktu Mulai        : 2026-05-23 20:01:36
+Waktu Selesai      : 2026-05-23 21:32:02
+Total Durasi       : 1:30:25
+Total Proyek       : 90
+Berhasil Diupdate  : 78
+Proyek Dilewati    : 12
+Portofolio Mismatch: 1
+
+Detail Proyek Dilewati (Skipped):
+- Proyek: Advance NDT ( ECT & IRIS & PAUT) 340
+- Proyek: Q&Q Batubara 408
+- Proyek: Q&Q Batubara 409
+- Proyek: Q&Q Batubara 410
+- Proyek: Q&Q Batubara 411
+- Proyek: Q&Q Batubara 412
+- Proyek: Q&Q Batubara 413
+- Proyek: Q&Q Batubara 414
+- Proyek: Q&Q Batubara 415
+- Proyek: Q&Q Batubara 416
+- Proyek: Q&Q Batubara 417
+- Proyek: Beban Tetap 418
+
+Detail Portofolio Mismatch:
+- Proyek: Jasa Konsultansi Terkait Manajemen Konsturksi dan Gedung 381 | Kode: 22554 | Web: 'DBS SUSTAINABILITY & ENVIRONMENT' | Excel: 'DBS Infrastructure & Transportation'
+==========================================
+
