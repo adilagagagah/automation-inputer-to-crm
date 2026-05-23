@@ -63,10 +63,8 @@ skipped_count = 0
 mismatch_count = 0
 
 for target_proyek in unique_projects:
-    # Memfilter baris data hanya untuk proyek ini
+    # Memfilter baris dan mengambil link data untuk setipa proyek
     df_filtered = df[df['proyek_2'].astype(str) == str(target_proyek)]
-    
-    # Mengambil link dari dataframe kolom 'link'
     input_link = str(df_filtered['link'].iloc[0]).strip() if 'link' in df_filtered.columns else ""
     
     # Mengekstrak kode proyek dari link setelah "view/"
@@ -77,20 +75,7 @@ for target_proyek in unique_projects:
             kode_proyek = kode_proyek.split("#")[0]
     else:
         kode_proyek = input_link.strip()  # Fallback jika Excel hanya berisi kode angka
-
-    pend_1 = df_filtered['pend_1'].iloc[0] if 'pend_1' in df_filtered.columns else "Tidak ada"
-    pers_1 = df_filtered['pers_1'].iloc[0] if 'pers_1' in df_filtered.columns else "Tidak ada"
-    pend_1_formatted = f"{pend_1:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
-    pers_1_formatted = f"{pers_1:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
-
-    print(f"\n\n==========================================")
-    print(f"PROGRESS SAAT INI     : {updated_count} Sukses | {skipped_count} Dilewati | {mismatch_count} Mismatch")
-    print(f"NAMA PROYEK RKAP REAL : {target_proyek}")
-    print(f"KODE PROYEK RKAP REAL : {kode_proyek}")
-    print(f"PENDAPATAN RKAP REAL  : {pend_1_formatted}")
-    print(f"PERSONIL RKAP REAL    : {pers_1_formatted}")
-    print(f"==========================================")
-    
+        
     if not input_link or input_link.lower() == "nan":
         print("⚠️ Link tidak ditemukan di data Excel. Melewati proyek ini...")
         skipped_count += 1
@@ -109,12 +94,39 @@ for target_proyek in unique_projects:
         continue
         
     # ==========================================
-    # CEK KESESUAIAN PORTOFOLIO DI HALAMAN #RKAP
+    # MEMBUKA HALAMAN RKAP UNTUK CEK PORTOFOLIO
     # ==========================================
     address_rkap = f"https://crm.ptsi.co.id/index.php/project/rkap/view/{kode_proyek}#rkap"
     driver.get(address_rkap)
     print(f"\nSedang berada di laman {address_rkap} untuk cek Portofolio...")
     time.sleep(3) # Beri jeda agar halaman sepenuhnya dimuat
+    
+    target_proyek_CRM = "-"
+    try:
+        # Membaca teks meskipun elemen tersebut memiliki atribut display:none di HTML (get_attribute("textContent"))
+        crm_project_element = driver.find_element(By.XPATH, "//label[@for='potential_id']/following-sibling::div/p[@class='value']")
+        target_proyek_CRM = crm_project_element.get_attribute("textContent").strip()
+        
+        # Jika isinya hanya '-' atau tersembunyi, fallback/gunakan Nama RKAP
+        if target_proyek_CRM == "-" or not target_proyek_CRM:
+            crm_project_element_alt = driver.find_element(By.XPATH, "//label[@for='nama_potensial']/following-sibling::div/p[@class='value']")
+            target_proyek_CRM = crm_project_element_alt.get_attribute("textContent").strip()
+    except Exception as e:
+        target_proyek_CRM = "Tidak ditemukan"
+
+    pend_1 = df_filtered['pend_1'].iloc[0] if 'pend_1' in df_filtered.columns else "Tidak ada"
+    pers_1 = df_filtered['pers_1'].iloc[0] if 'pers_1' in df_filtered.columns else "Tidak ada"
+    pend_1_formatted = f"{pend_1:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
+    pers_1_formatted = f"{pers_1:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
+
+    print(f"\n\n==========================================")
+    print(f"PROGRESS SAAT INI     : {updated_count} Sukses | {skipped_count} Dilewati | {mismatch_count} Mismatch")
+    print(f"NAMA PROYEK CRM       : {target_proyek_CRM}")
+    print(f"NAMA PROYEK RKAP REAL : {target_proyek}")
+    print(f"KODE PROYEK RKAP REAL : {kode_proyek}")
+    print(f"PENDAPATAN RKAP REAL  : {pend_1_formatted}")
+    print(f"PERSONIL RKAP REAL    : {pers_1_formatted}")
+    print(f"==========================================")
     
     portofolio_excel = str(df_filtered['Portofolio'].iloc[0]).strip() if 'Portofolio' in df_filtered.columns else ""
     if portofolio_excel and portofolio_excel.lower() != "nan":
@@ -138,7 +150,7 @@ for target_proyek in unique_projects:
             print("⚠️ Peringatan: Elemen Unit Pengelola Portofolio tidak ditemukan di web atau tidak dapat diakses.")
             
     # ==========================================
-    # BERALIH KE HALAMAN #RAB UNTUK INPUT DATA
+    # MEMBUKA HALAMAN RAB UNTUK INPUT DATA
     # ==========================================
     address_rab = f"https://crm.ptsi.co.id/index.php/project/rkap/view/{kode_proyek}#rab"
     driver.get(address_rab)
@@ -164,10 +176,9 @@ for target_proyek in unique_projects:
     # ==========================================
     # 2. PERULANGAN OTOMATISASI UNTUK SETIAP BULAN
     # ==========================================
+    dataset = dataset[1:]
     for data in dataset:
         target_bulan = data["bulan"][:3].capitalize()
-        if target_bulan == "Kum":
-            continue
         
         while True:
             # print(f"\n------------------------------------------")
@@ -232,7 +243,7 @@ for target_proyek in unique_projects:
                 
                 list_error.append(f"Proyek: {target_proyek} | Kode: {kode_proyek} | Bulan: {target_bulan}")
 
-                print("Merefresh halaman dan mencoba kembali untuk bulan yang sama...")
+                print("Merefresh halaman dan mencoba input ulang...")
                 driver.refresh()
                 time.sleep(3) # Tunggu sejenak setelah refresh agar script siap membaca ulang web
 
