@@ -27,7 +27,7 @@ def bersihkan_teks(teks):
 # ==========================================
 print("\nMembaca dan memproses file Excel...")
 excel_file = 'private/REAL_RKAP.xlsx'
-excel_sheet = 'SIBPP_RKAP'
+excel_sheet = input("\nMasukkan nama sheet Excel yang akan diproses (misal: SIBPP_RKAP): ")
 df = pd.read_excel(excel_file, sheet_name=excel_sheet)
 
 # Mendapatkan daftar proyek unik dari kolom 'proyek_2'
@@ -43,6 +43,12 @@ driver = webdriver.Chrome(options=chrome_options)
 # Beri jeda agar user bisa memastikan sudah login di browser yang terbuka sebelum script berjalan otomatis
 input("\nPastikan Anda sudah login di browser, lalu tekan Enter di sini untuk mulai otomatisasi...")
 start_time = datetime.now()
+
+log_file = "automation_log.txt"
+
+list_skipped = []
+list_mismatch = []
+list_error = []
 
 # Mengaktifkan wakepy agar layar tetap menyala (presenting mode)
 screen_awake = keep.presenting()
@@ -91,10 +97,8 @@ for target_proyek in unique_projects:
         continue
         
     if input_link.lower() == "skip":
-        pesan_skip = f"Skipped - Proyek: {target_proyek}"
         print(f"⏩ Terdeteksi instruksi 'skip' pada kolom link. Melewati proyek ini...")
-        with open("skipped_projects_log.txt", "a", encoding="utf-8") as f:
-            f.write(pesan_skip + "\n")
+        list_skipped.append(f"Proyek: {target_proyek}")
         skipped_count += 1
         continue
         
@@ -125,10 +129,8 @@ for target_proyek in unique_projects:
             
             # Bandingkan hasil teks yang sudah dibersihkan
             if portofolio_web_bersih != portofolio_excel_bersih:
-                pesan_mismatch = f"Mismatch Portofolio - Proyek: {target_proyek}, Kode: {kode_proyek}, Web: '{portofolio_web}', Excel: '{portofolio_excel}'"
-                print(f"⚠️ {pesan_mismatch}")
-                with open("portofolio_mismatch_log.txt", "a", encoding="utf-8") as f:
-                    f.write(pesan_mismatch + "\n")
+                print(f"⚠️ Mismatch Portofolio - Proyek: {target_proyek}, Kode: {kode_proyek}, Web: '{portofolio_web}', Excel: '{portofolio_excel}'")
+                list_mismatch.append(f"Proyek: {target_proyek} | Kode: {kode_proyek} | Web: '{portofolio_web}' | Excel: '{portofolio_excel}'")
                 mismatch_count += 1
             else:
                 print(f"✅ Cocok - Portofolio Proyek {kode_proyek} sesuai antara Web dan Excel.")
@@ -228,9 +230,7 @@ for target_proyek in unique_projects:
                 print(f"\n[⚠️ ERROR] Gagal memproses bulan {target_bulan}.")
                 # print(traceback.format_exc())
                 
-                # Menambahkan log ke dalam file teks setiap kali terjadi error
-                with open("error_log.txt", "a", encoding="utf-8") as f:
-                    f.write(f"Gagal memproses - Proyek: {target_proyek}, Kode: {kode_proyek}, Bulan: {target_bulan}\n")
+                list_error.append(f"Proyek: {target_proyek} | Kode: {kode_proyek} | Bulan: {target_bulan}")
 
                 print("Merefresh halaman dan mencoba kembali untuk bulan yang sama...\n")
                 driver.refresh()
@@ -258,13 +258,29 @@ summary_text = (
     f"Berhasil Diupdate  : {updated_count}\n"
     f"Proyek Dilewati    : {skipped_count}\n"
     f"Portofolio Mismatch: {mismatch_count}\n"
-    "=========================================="
 )
+
+if list_skipped:
+    summary_text += "\nDetail Proyek Dilewati (Skipped):\n"
+    for item in list_skipped:
+        summary_text += f"- {item}\n"
+
+if list_mismatch:
+    summary_text += "\nDetail Portofolio Mismatch:\n"
+    for item in list_mismatch:
+        summary_text += f"- {item}\n"
+
+if list_error:
+    summary_text += "\nDetail Error Input Data:\n"
+    for item in list_error:
+        summary_text += f"- {item}\n"
+
+summary_text += "=========================================="
 
 print("\n" + summary_text)
 
-# Menyimpan log ringkasan akhir ke output_log.txt
-with open("output_log.txt", "a", encoding="utf-8") as f:
+# Menyimpan log ringkasan akhir ke automation_log.txt
+with open(log_file, "a", encoding="utf-8") as f:
     f.write(summary_text + "\n\n")
 
 driver.quit()
