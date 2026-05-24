@@ -29,11 +29,11 @@ def bersihkan_teks(teks):
 # ==========================================
 print("\nMembaca dan memproses file Excel...")
 excel_file = 'private/REAL_RKAP.xlsx'
-excel_sheet = input("\nMasukkan nama sheet Excel yang akan diproses (misal: SIBPP_RKAP): ")
-df = pd.read_excel(excel_file, sheet_name=excel_sheet)
+excel_sheet = input("\nMasukkan nama sheet Excel yang akan diproses (misal: SIBPP): ")
+df = pd.read_excel(excel_file, sheet_name=excel_sheet.upper())
 
-# Mendapatkan daftar proyek unik dari kolom 'proyek_2'
-unique_projects = df['proyek_2'].dropna().unique()
+# Mendapatkan daftar proyek unik dari kolom 'proyek_nomor'
+unique_projects = df['proyek_nomor'].dropna().unique()
 print(f"Ditemukan {len(unique_projects)} proyek unik.")
 
 # Menjalankan perintah CMD di latar belakang tanpa memblokir jalannya Python (menggunakan Popen)
@@ -62,6 +62,8 @@ chrome_options.add_experimental_option("debuggerAddress", f"127.0.0.1:{port}")
 driver = webdriver.Chrome(options=chrome_options)
 
 # Beri jeda agar user bisa memastikan sudah login di browser yang terbuka sebelum script berjalan otomatis
+address = f"https://crm.ptsi.co.id/index.php"
+driver.get(address)
 input("\nPastikan Anda sudah login di browser, lalu tekan Enter di sini untuk mulai otomatisasi...")
 start_time = datetime.now()
 
@@ -85,7 +87,7 @@ mismatch_count = 0
 
 for target_proyek in unique_projects:
     # Memfilter baris dan mengambil link data untuk setipa proyek
-    df_filtered = df[df['proyek_2'].astype(str) == str(target_proyek)]
+    df_filtered = df[df['proyek_nomor'].astype(str) == str(target_proyek)]
     input_link = str(df_filtered['link'].iloc[0]).strip() if 'link' in df_filtered.columns else ""
     
     # Mengekstrak kode proyek dari link setelah "view/"
@@ -151,7 +153,7 @@ for target_proyek in unique_projects:
     # ==========================================    
     print(f"\nSedang berada di laman {address_rkap} untuk cek Portofolio...")
 
-    portofolio_excel = str(df_filtered['Portofolio'].iloc[0]).strip() if 'Portofolio' in df_filtered.columns else ""
+    portofolio_excel = str(df_filtered['portofolio'].iloc[0]).strip() if 'portofolio' in df_filtered.columns else ""
     if portofolio_excel and portofolio_excel.lower() != "nan":
         try:
             portofolio_web_element = WebDriverWait(driver, 5).until(
@@ -183,7 +185,7 @@ for target_proyek in unique_projects:
     dataset = []
     for index, row in df_filtered.iterrows():
         dataset.append({
-            "bulan": str(row["bulanan"]).strip(),
+            "bulan": str(row["bulan"]).strip(),
             "b_pendapatan": str(int(round(float(row["Pendapatan"])))),
             "b_personil": str(int(round(float(row["Personil"])))),
             "b_dinas": str(int(round(float(row["Perjalanan Dinas"])))),
