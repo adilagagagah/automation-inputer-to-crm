@@ -207,6 +207,7 @@ for target_proyek in unique_projects:
         # 2. PERULANGAN OTOMATISASI UNTUK SETIAP BULAN
         # ==========================================
         dataset = dataset[1:]
+        is_desentralisasi = False
         for data in dataset:
             target_bulan = data["bulan"][:3].capitalize()
             
@@ -219,10 +220,17 @@ for target_proyek in unique_projects:
                 
                 try:
                     # print(f"[{target_bulan}] Mencari dan mengklik link...")
-                    link_bulan = WebDriverWait(driver, 10).until(
-                        EC.presence_of_element_located((By.XPATH, f"//div[@id='rab-bulanan']//a[text()='{target_bulan}']"))
+                    elemen_bulan = WebDriverWait(driver, 10).until(
+                        EC.presence_of_element_located((By.XPATH, f"//div[@id='rab-bulanan']//*[text()='{target_bulan}']"))
                     )
-                    driver.execute_script("arguments[0].click();", link_bulan)
+
+                    if elemen_bulan.tag_name.lower() != 'a':
+                        print(f"⚠️ Bulan {target_bulan} bukan link (a tag). Terdeteksi proyek desentralisasi. Lanjut ke proyek selanjutnya...")
+                        list_skipped.append(f"Proyek: {target_proyek} | Keterangan: Proyek desentralisasi")
+                        is_desentralisasi = True
+                        break
+
+                    driver.execute_script("arguments[0].click();", elemen_bulan)
 
                     # print(f"[{target_bulan}] Menunggu pop-up modal RAB muncul...")
                     WebDriverWait(driver, 15).until(
@@ -276,6 +284,13 @@ for target_proyek in unique_projects:
                     print("Merefresh halaman dan mencoba input ulang...")
                     driver.refresh()
                     time.sleep(2) # Tunggu sejenak setelah refresh agar script siap membaca ulang web
+
+            if is_desentralisasi:
+                break
+
+        if is_desentralisasi:
+            skipped_count += 1
+            continue
 
         # Menambah hitungan proyek yang sukses diproses setelah semua perulangan bulan untuk proyek ini selesai
         updated_count += 1
