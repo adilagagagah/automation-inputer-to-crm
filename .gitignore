@@ -2,3 +2,5 @@
 /build
 # /dist
 *.spec
+*.zip
+/input-to-crm-executable-python
