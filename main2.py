@@ -1,4 +1,5 @@
 import sys
+import os
 from wakepy import keep
 import subprocess
 import time
@@ -31,6 +32,34 @@ print("\nMembaca dan memproses file Excel...")
 excel_file = 'private/REAL_RKAP.xlsx'
 excel_sheet = input("\nMasukkan nama sheet Excel yang akan diproses (misal: SIBPP): ")
 df = pd.read_excel(excel_file, sheet_name=excel_sheet.upper())
+
+checkpoint_file = "checkpoint.txt"
+processed_projects = set()
+
+if os.path.exists(checkpoint_file):
+    with open(checkpoint_file, "r", encoding="utf-8") as f:
+        processed_projects = set(line.strip() for line in f if line.strip())
+    
+    if processed_projects:
+        print(f"\n[Checkpoint] Ditemukan {len(processed_projects)} proyek yang sudah selesai diproses sebelumnya.")
+        print("1. Lanjutkan dari checkpoint (Skip proyek yang sudah selesai)")
+        print("2. Mulai dari awal (Hapus checkpoint)")
+        while True:
+            pilihan = input("Masukkan pilihan (1/2): ")
+            if pilihan == '1':
+                print("⏩ Melanjutkan dari checkpoint...")
+                break
+            elif pilihan == '2':
+                print("🔄 Mulai dari awal. Checkpoint dibersihkan...")
+                processed_projects = set()
+                open(checkpoint_file, "w").close() # Kosongkan file checkpoint
+                break
+            else:
+                print("⚠️ Pilihan tidak valid. Silakan masukkan 1 atau 2.")
+
+def catat_checkpoint(proyek):
+    with open(checkpoint_file, "a", encoding="utf-8") as f:
+        f.write(str(proyek) + "\n")
 
 # Mendapatkan daftar proyek unik dari kolom 'proyek_nomor'
 unique_projects = df['proyek_nomor'].dropna().unique()
@@ -87,6 +116,10 @@ skipped_count = 0
 mismatch_count = 0
 
 for target_proyek in unique_projects:
+    if str(target_proyek) in processed_projects:
+        print(f"⏩ Melewati proyek {target_proyek} (Sudah diproses di Checkpoint)")
+        continue
+
     try:
         # Memfilter baris dan mengambil link data untuk setipa proyek
         df_filtered = df[df['proyek_nomor'].astype(str) == str(target_proyek)]
@@ -137,12 +170,14 @@ for target_proyek in unique_projects:
             print("⚠️ Link tidak ditemukan di data Excel. Melewati proyek ini...")
             list_skipped.append(f"Proyek: {target_proyek}")
             skipped_count += 1
+            catat_checkpoint(target_proyek)
             continue
             
         if input_link.lower() == "skip":
             print(f"⏩ Terdeteksi instruksi 'skip' pada kolom link. Melewati proyek ini...")
             list_skipped.append(f"Proyek: {target_proyek}")
             skipped_count += 1
+            catat_checkpoint(target_proyek)
             continue
             
         # Validasi apakah kode_proyek valid (berisi angka)
@@ -150,6 +185,7 @@ for target_proyek in unique_projects:
             print(f"⚠️ Link tidak valid ({input_link}). Melewati proyek ini...")
             list_skipped.append(f"Proyek: {target_proyek}")
             skipped_count += 1
+            catat_checkpoint(target_proyek)
             continue
             
         # ==========================================
@@ -207,6 +243,8 @@ for target_proyek in unique_projects:
         # 2. PERULANGAN OTOMATISASI UNTUK SETIAP BULAN
         # ==========================================
         dataset = dataset[1:]
+        is_not_desentralisasi = True
+
         for data in dataset:
             target_bulan = data["bulan"][:3].capitalize()
             
@@ -219,10 +257,11 @@ for target_proyek in unique_projects:
                 
                 try:
                     # print(f"[{target_bulan}] Mencari dan mengklik link...")
-                    link_bulan = WebDriverWait(driver, 10).until(
-                        EC.presence_of_element_located((By.XPATH, f"//div[@id='rab-bulanan']//a[text()='{target_bulan}']"))
+                    elemen_bulan = WebDriverWait(driver, 10).until(
+                        EC.presence_of_element_located((By.XPATH, f"//div[@id='rab-bulanan']//a[contains(text(), '{target_bulan}')]"))
                     )
-                    driver.execute_script("arguments[0].click();", link_bulan)
+
+                    driver.execute_script("arguments[0].click();", elemen_bulan)
 
                     # print(f"[{target_bulan}] Menunggu pop-up modal RAB muncul...")
                     WebDriverWait(driver, 15).until(
@@ -268,6 +307,18 @@ for target_proyek in unique_projects:
                     break  # Berhasil, memecah (keluar) dari loop `while` untuk lanjut ke iterasi `for` berikutnya
 
                 except Exception as e:
+                    # JIKA ERROR (misal elemen tidak ditemukan / timeout):
+                    # Cek apakah ini proyek desentralisasi dengan melihat ketiadaan tag 'a' di rab-bulanan sama sekali
+                    try:
+                        a_tags = driver.find_elements(By.XPATH, "//div[@id='rab-bulanan']//a")
+                        if not a_tags:
+                            print(f"⚠️ Tidak ada link bulan (tag a). Terdeteksi proyek desentralisasi. Lanjut ke proyek selanjutnya...")
+                            list_skipped.append(f"Proyek: {target_proyek} | Keterangan: Proyek desentralisasi")
+                            is_not_desentralisasi = False
+                            break
+                    except:
+                        pass
+
                     print(f"\n[⚠️ ERROR] Gagal memproses bulan {target_bulan}.")
                     # print(traceback.format_exc())
                     
@@ -277,8 +328,17 @@ for target_proyek in unique_projects:
                     driver.refresh()
                     time.sleep(2) # Tunggu sejenak setelah refresh agar script siap membaca ulang web
 
+            if not is_not_desentralisasi:                
+                break
+
+        if not is_not_desentralisasi:
+            skipped_count += 1
+            catat_checkpoint(target_proyek)
+            continue
+
         # Menambah hitungan proyek yang sukses diproses setelah semua perulangan bulan untuk proyek ini selesai
         updated_count += 1
+        catat_checkpoint(target_proyek)
     
     except Exception as e:
         print(f"\n[⚠️ ERROR Sistem] Gagal memproses keseluruhan proyek {target_proyek}: {e}")
