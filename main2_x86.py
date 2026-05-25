@@ -133,7 +133,7 @@ for target_proyek in unique_projects:
         print(f"PERSONIL RKAP REAL    : {pers_1_formatted}")
         print(f"==========================================")
             
-        if not input_link or input_link.lower() == "nan":
+        if not input_link or input_link.lower() == "nan" or str(input_link) == "0":
             print("⚠️ Link tidak ditemukan di data Excel. Melewati proyek ini...")
             list_skipped.append(f"Proyek: {target_proyek}")
             skipped_count += 1
