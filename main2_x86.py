@@ -408,4 +408,6 @@ print("\n" + summary_text)
 with open(log_file, "a", encoding="utf-8") as f:
     f.write(summary_text + "\n\n")
 
+input("\nProgram telah selesai, silakan cek automation_log.txt \nTekan Enter untuk keluar..")
+
 driver.quit()
