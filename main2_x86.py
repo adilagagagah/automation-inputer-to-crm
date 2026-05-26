@@ -34,11 +34,18 @@ excel_sheet = input("\nMasukkan nama sheet Excel yang akan diproses (misal: SIBP
 df = pd.read_excel(excel_file, sheet_name=excel_sheet.upper())
 
 proyek_done_file = "proyek_done.txt"
-processed_projects = set()
+processed_projects = {}
 
 if os.path.exists(proyek_done_file):
     with open(proyek_done_file, "r", encoding="utf-8") as f:
-        processed_projects = set(line.strip() for line in f if line.strip())
+        for line in f:
+            line = line.strip()
+            if line:
+                if " | " in line:
+                    parts = line.split(" | ", 1)
+                    processed_projects[parts[0]] = parts[1]
+                else:
+                    processed_projects[line] = ""
     
     if processed_projects:
         print(f"\n[proyek_done] Ditemukan {len(processed_projects)} proyek yang sudah selesai diproses sebelumnya.")
@@ -51,15 +58,18 @@ if os.path.exists(proyek_done_file):
                 break
             elif pilihan == '2':
                 print("🔄 Mulai dari awal. proyek_done dibersihkan...")
-                processed_projects = set()
+                processed_projects = {}
                 open(proyek_done_file, "w").close() # Kosongkan file proyek_done
                 break
             else:
                 print("⚠️ Pilihan tidak valid. Silakan masukkan 1 atau 2.")
 
-def catat_proyek_done(proyek):
+def catat_proyek_done(proyek, info=""):
     with open(proyek_done_file, "a", encoding="utf-8") as f:
-        f.write(str(proyek) + "\n")
+        if info:
+            f.write(f"{proyek} | {info}\n")
+        else:
+            f.write(str(proyek) + "\n")
 
 # Mendapatkan daftar proyek unik dari kolom 'proyek_nomor'
 unique_projects = df['proyek_nomor'].dropna().unique()
@@ -116,8 +126,16 @@ skipped_count = 0
 mismatch_count = 0
 
 for target_proyek in unique_projects:
-    if str(target_proyek) in processed_projects:
-        print(f"⏩ Melewati proyek {target_proyek} (Sudah diproses di proyek_done)")
+    target_proyek_str = str(target_proyek)
+    if target_proyek_str in processed_projects:
+        info_done = processed_projects[target_proyek_str]
+        print(f"\n[proyek_done] ⏩ Melewati proyek {target_proyek} (Sudah diproses di proyek_done)")
+        if info_done and "Mismatch Portofolio" in info_done:
+            print(f"   {info_done}")
+            list_mismatch.append(f"Proyek: {target_proyek} | {info_done}")
+            mismatch_count += 1
+            
+        updated_count += 1
         continue
 
     try:
@@ -190,6 +208,7 @@ for target_proyek in unique_projects:
         # ==========================================    
         print(f"\nSedang berada di laman {address_rkap} untuk cek Portofolio...")
 
+        pesan_mismatch = ""
         portofolio_excel = str(df_filtered['portofolio'].iloc[0]).strip() if 'portofolio' in df_filtered.columns else ""
         if portofolio_excel and portofolio_excel.lower() != "nan":
             try:
@@ -203,8 +222,9 @@ for target_proyek in unique_projects:
                 
                 # Bandingkan hasil teks yang sudah dibersihkan
                 if portofolio_web_bersih != portofolio_excel_bersih:
-                    print(f"⚠️ Mismatch Portofolio - Proyek: {target_proyek}, Kode: {kode_proyek}, Web: '{portofolio_web}', Excel: '{portofolio_excel}'")
-                    list_mismatch.append(f"Proyek: {target_proyek} | Kode: {kode_proyek} | Web: '{portofolio_web}' | Excel: '{portofolio_excel}'")
+                    pesan_mismatch = f"⚠️ Mismatch Portofolio - Web: '{portofolio_web}', Excel: '{portofolio_excel}'"
+                    print(pesan_mismatch)
+                    list_mismatch.append(f"Proyek: {target_proyek} | Kode: {kode_proyek} | {pesan_mismatch}")
                     mismatch_count += 1
                 else:
                     print(f"✅ Cocok - Portofolio Proyek {kode_proyek} sesuai antara Web dan Excel.")
@@ -335,7 +355,7 @@ for target_proyek in unique_projects:
 
         # Menambah hitungan proyek yang sukses diproses setelah semua perulangan bulan untuk proyek ini selesai
         updated_count += 1
-        catat_proyek_done(target_proyek)
+        catat_proyek_done(target_proyek, pesan_mismatch)
 
     except Exception as e:
         print(f"\n[⚠️ ERROR Sistem] Gagal memproses keseluruhan proyek {target_proyek}: {e}")
