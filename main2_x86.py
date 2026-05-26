@@ -33,32 +33,32 @@ excel_file = 'private/REAL_RKAP.xlsx'
 excel_sheet = input("\nMasukkan nama sheet Excel yang akan diproses (misal: SIBPP): ")
 df = pd.read_excel(excel_file, sheet_name=excel_sheet.upper())
 
-checkpoint_file = "checkpoint.txt"
+proyek_done_file = "proyek_done.txt"
 processed_projects = set()
 
-if os.path.exists(checkpoint_file):
-    with open(checkpoint_file, "r", encoding="utf-8") as f:
+if os.path.exists(proyek_done_file):
+    with open(proyek_done_file, "r", encoding="utf-8") as f:
         processed_projects = set(line.strip() for line in f if line.strip())
     
     if processed_projects:
-        print(f"\n[Checkpoint] Ditemukan {len(processed_projects)} proyek yang sudah selesai diproses sebelumnya.")
-        print("1. Lanjutkan dari checkpoint (Skip proyek yang sudah selesai)")
-        print("2. Mulai dari awal (Hapus checkpoint)")
+        print(f"\n[proyek_done] Ditemukan {len(processed_projects)} proyek yang sudah selesai diproses sebelumnya.")
+        print("1. Lanjutkan dari proyek yang belum di input (skip/blank)")
+        print("2. Mulai dari awal (Hapus proyek_done)")
         while True:
             pilihan = input("Masukkan pilihan (1/2): ")
             if pilihan == '1':
-                print("⏩ Melanjutkan dari checkpoint...")
+                print("⏩ Melanjutkan dari proyek yang belum di input...")
                 break
             elif pilihan == '2':
-                print("🔄 Mulai dari awal. Checkpoint dibersihkan...")
+                print("🔄 Mulai dari awal. proyek_done dibersihkan...")
                 processed_projects = set()
-                open(checkpoint_file, "w").close() # Kosongkan file checkpoint
+                open(proyek_done_file, "w").close() # Kosongkan file proyek_done
                 break
             else:
                 print("⚠️ Pilihan tidak valid. Silakan masukkan 1 atau 2.")
 
-def catat_checkpoint(proyek):
-    with open(checkpoint_file, "a", encoding="utf-8") as f:
+def catat_proyek_done(proyek):
+    with open(proyek_done_file, "a", encoding="utf-8") as f:
         f.write(str(proyek) + "\n")
 
 # Mendapatkan daftar proyek unik dari kolom 'proyek_nomor'
@@ -117,7 +117,7 @@ mismatch_count = 0
 
 for target_proyek in unique_projects:
     if str(target_proyek) in processed_projects:
-        print(f"⏩ Melewati proyek {target_proyek} (Sudah diproses di Checkpoint)")
+        print(f"⏩ Melewati proyek {target_proyek} (Sudah diproses di proyek_done)")
         continue
 
     try:
@@ -170,14 +170,12 @@ for target_proyek in unique_projects:
             print("⚠️ Link tidak ditemukan di data Excel. Melewati proyek ini...")
             list_skipped.append(f"Proyek: {target_proyek}")
             skipped_count += 1
-            catat_checkpoint(target_proyek)
             continue
             
         if input_link.lower() == "skip":
             print(f"⏩ Terdeteksi instruksi 'skip' pada kolom link. Melewati proyek ini...")
             list_skipped.append(f"Proyek: {target_proyek}")
             skipped_count += 1
-            catat_checkpoint(target_proyek)
             continue
             
         # Validasi apakah kode_proyek valid (berisi angka)
@@ -185,7 +183,6 @@ for target_proyek in unique_projects:
             print(f"⚠️ Link tidak valid ({input_link}). Melewati proyek ini...")
             list_skipped.append(f"Proyek: {target_proyek}")
             skipped_count += 1
-            catat_checkpoint(target_proyek)
             continue
             
         # ==========================================
@@ -332,13 +329,13 @@ for target_proyek in unique_projects:
                 break
 
         if not is_not_desentralisasi:
+            list_skipped.append(f"Proyek: {target_proyek}")
             skipped_count += 1
-            catat_checkpoint(target_proyek)
             continue
 
         # Menambah hitungan proyek yang sukses diproses setelah semua perulangan bulan untuk proyek ini selesai
         updated_count += 1
-        catat_checkpoint(target_proyek)
+        catat_proyek_done(target_proyek)
 
     except Exception as e:
         print(f"\n[⚠️ ERROR Sistem] Gagal memproses keseluruhan proyek {target_proyek}: {e}")
