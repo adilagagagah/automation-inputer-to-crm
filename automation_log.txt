@@ -75,3 +75,19 @@ Detail Error Input Data:
 - Proyek: Jasa Sertifikasi Laik Operasi (SLO Transmisi) PT Gunbuster Nickel Industry 241 | Kode: 22125 | Bulan: Jan
 ==========================================
 
+==========================================
+PROSES SELESAI! Seluruh data proyek telah diinput.
+Sumber File Excel  : private/REAL_RKAP.xlsx
+Sumber Sheet       : ogr
+Waktu Mulai        : 2026-05-26 11:38:41
+Waktu Selesai      : 2026-05-26 12:22:13
+Total Durasi       : 0:43:32
+Total Proyek       : 38
+Berhasil Diupdate  : 37
+Proyek Dilewati    : 1
+Portofolio Mismatch: 0
+
+Detail Proyek Dilewati (Skipped):
+- Proyek: Beban Tetap 662
+==========================================
+
