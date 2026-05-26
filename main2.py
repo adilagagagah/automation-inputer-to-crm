@@ -331,6 +331,7 @@ for target_proyek in unique_projects:
                         if not a_tags:
                             print(f"⚠️ Tidak ada link bulan (tag a). Terdeteksi proyek desentralisasi. Lanjut ke proyek selanjutnya...")
                             list_skipped.append(f"Proyek: {target_proyek} | Keterangan: Proyek desentralisasi")
+                            skipped_count += 1
                             is_not_desentralisasi = False
                             break
                     except:
