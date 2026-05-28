@@ -91,3 +91,26 @@ Detail Proyek Dilewati (Skipped):
 - Proyek: Beban Tetap 662
 ==========================================
 
+==========================================
+PROSES SELESAI! Seluruh data proyek telah diinput.
+Sumber File Excel  : private/REAL_RKAP.xlsx
+Sumber Sheet       : sijak
+Waktu Mulai        : 2026-05-27 22:14:03
+Waktu Selesai      : 2026-05-27 23:50:42
+Total Durasi       : 1:36:38
+Total Proyek       : 78
+Berhasil Diupdate  : 74
+Proyek Dilewati    : 4
+Portofolio Mismatch: 2
+
+Detail Proyek Dilewati (Skipped):
+- Proyek: Jasa Cargo Monitoring Load Transport Unload BBM Menggunakan Moda Transportasi Kapal Tahun 2025 453
+- Proyek: Stock Opname 454
+- Proyek: QnQ Survey Mineral & Batubara 455 | Keterangan: Proyek desentralisasi
+- Proyek: Beban Tetap 496
+
+Detail Portofolio Mismatch:
+- Proyek: Sertifikasi Peralatan 473 | Kode: 21622 | ⚠️ Mismatch Portofolio - Web: 'DBS OIL GAS & RENEWABLE ENERGY', Excel: 'DBS Infrastructure & Transportation'
+- Proyek: Sertifikasi Laik Operasi 475 | Kode: 21604 | ⚠️ Mismatch Portofolio - Web: 'DBS COAL & MINERAL', Excel: 'DBS Infrastructure & Transportation'
+==========================================
+

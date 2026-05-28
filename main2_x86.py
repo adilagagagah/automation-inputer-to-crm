@@ -71,6 +71,9 @@ def catat_proyek_done(proyek, info=""):
         else:
             f.write(str(proyek) + "\n")
 
+# Bersihkan karakter enter/newline pada data proyek agar selalu menjadi satu baris
+df['proyek_nomor'] = df['proyek_nomor'].apply(lambda x: " ".join(str(x).split()) if pd.notnull(x) else x)
+
 # Mendapatkan daftar proyek unik dari kolom 'proyek_nomor'
 unique_projects = df['proyek_nomor'].dropna().unique()
 print(f"Ditemukan {len(unique_projects)} proyek unik.")
@@ -126,7 +129,8 @@ skipped_count = 0
 mismatch_count = 0
 
 for target_proyek in unique_projects:
-    target_proyek_str = str(target_proyek)
+    # Memastikan kembali format string telah bersih dari karakter enter
+    target_proyek_str = " ".join(str(target_proyek).split())
     if target_proyek_str in processed_projects:
         info_done = processed_projects[target_proyek_str]
         print(f"\n[proyek_done] ⏩ Melewati proyek {target_proyek} (Sudah diproses di proyek_done)")
@@ -295,6 +299,11 @@ for target_proyek in unique_projects:
                             EC.element_to_be_clickable((By.ID, id_elemen))
                         )
                         
+                        # Cek apakah form kosong dan nilai yang akan diinput adalah "0"
+                        current_value = input_field.get_attribute("value")
+                        if (not current_value or current_value.strip() == "") and str(nilai_input) == "0":
+                            continue
+                        
                         input_field.click()
                         input_field.send_keys(Keys.CONTROL + "a")
                         input_field.send_keys(Keys.BACKSPACE)
@@ -350,8 +359,6 @@ for target_proyek in unique_projects:
                 break
 
         if not is_not_desentralisasi:
-            list_skipped.append(f"Proyek: {target_proyek}")
-            skipped_count += 1
             continue
 
         # Menambah hitungan proyek yang sukses diproses setelah semua perulangan bulan untuk proyek ini selesai
