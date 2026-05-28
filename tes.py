@@ -6,7 +6,7 @@ import pandas as pd
 # Membaca file excel. Pastikan Anda sudah install pandas & openpyxl 
 # dengan perintah: pip install pandas openpyxl
 
-df = pd.read_excel('private/REAL_RKAP.xlsx', sheet_name='SIBPP')
+df = pd.read_excel('private/REAL_RKAP.xlsx', sheet_name='GNI')
 
 
 # # Memfilter baris di mana kolom 'proyek_nomor' mengandung nama proyek target
@@ -28,5 +28,11 @@ for index, row in df_filtered.iterrows():
         "b_jasa": str(int(0))
     })
 
-print(dataset)
-print(df.columns)
+# print(dataset)
+# print(df.columns)
+
+df_exclude_skip = df[df['link'] != 'skip']
+unique_projects = df_exclude_skip['proyek_nomor'].dropna().unique()
+unique_link = df_exclude_skip['link'].dropna().unique()
+print(len(unique_projects))
+print(len(unique_link))

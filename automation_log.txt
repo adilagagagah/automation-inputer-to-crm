@@ -141,3 +141,21 @@ Detail Error Input Data:
 - Proyek: Sertifikasi Jackstand dan Tangki Timbun 122 | Kode: 21365 | Bulan: Des
 ==========================================
 
+==========================================
+PROSES SELESAI! Seluruh data proyek telah diinput.
+Sumber File Excel  : private/REAL_RKAP.xlsx
+Sumber Sheet       : gni
+Waktu Mulai        : 2026-05-28 19:08:25
+Waktu Selesai      : 2026-05-28 19:39:06
+Total Durasi       : 0:30:41
+Total Proyek       : 34
+Berhasil Diupdate  : 31
+Proyek Dilewati    : 3
+Portofolio Mismatch: 0
+
+Detail Proyek Dilewati (Skipped):
+- Proyek: Verifikasi Dalam Rangka Subsidi Motor Listrik 147
+- Proyek: Verifikasi Dalam Rangka Impor CBU Mobil EV 148
+- Proyek: Beban Tetap 175
+==========================================
+

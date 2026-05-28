@@ -4,3 +4,4 @@
 *.spec
 *.zip
 /input-to-crm-executable-python
+/src/__pycache__
