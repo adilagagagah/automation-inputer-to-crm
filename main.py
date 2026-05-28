@@ -36,8 +36,11 @@ def main():
 
     # buka chrome
     driver = inisialisasi_chrome()
-
     input("\nPastikan Anda sudah login di browser, lalu tekan Enter di sini untuk mulai otomatisasi...")
+
+    # Mengaktifkan wakepy agar layar tetap menyala (presenting mode)
+    screen_awake = keep.presenting()
+    screen_awake.__enter__()
     start_time = datetime.now()
 
     # input setiap project
@@ -105,8 +108,8 @@ def main():
             # ==========================================
             # MEMBUKA HALAMAN RAB UNTUK INPUT DATA
             # ==========================================
-            print(f"Beralih ke laman {address_rab} untuk mulai input data RAB...")
             address_rab = f"https://crm.ptsi.co.id/index.php/project/rkap/view/{kode_proyek}#rab"
+            print(f"Beralih ke laman {address_rab} untuk mulai input data RAB...")
             dataset_per_proyek = create_dataset_per_proyek(driver, address_rab, df_filtered)
             
             # cek apakah prooyek desentralisasi (tidak bisa input bulanan)
@@ -130,6 +133,7 @@ def main():
             error_count += 1
             continue
 
+    screen_awake.__exit__(None, None, None)
 
     end_time = datetime.now()
     total_duration = end_time - start_time
@@ -138,7 +142,7 @@ def main():
     summary_text = create_summary_log(excel_file, excel_sheet, start_time, end_time, 
                                     total_duration_str, total_projects, 
                                     updated_count, skipped_count, mismatch_count, 
-                                    list_skipped, list_mismatch)
+                                    list_skipped, list_mismatch, list_error)
 
     print("\n" + summary_text)
 

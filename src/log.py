@@ -17,7 +17,7 @@ def get_menu(proyek_done_file, processed_projects):
         print("1. Lanjutkan dari proyek yang belum di input (skip/blank).")
         print("2. Mulai dari awal (Hapus proyek_done).")
         while True:
-            pilihan = input("Masukkan pilihan (1/2/3): ")
+            pilihan = input("Masukkan pilihan (0/1/2): ")
             if pilihan == '1':
                 print("⏩ Melanjutkan dari proyek yang belum di input...")
                 break
