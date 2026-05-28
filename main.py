@@ -1,5 +1,6 @@
 import os
 from wakepy import keep
+import time
 from datetime import datetime
 import pandas as pd
 from selenium.webdriver.common.by import By
@@ -65,7 +66,9 @@ def main():
 
             # ambil nama proyek crm, ambil nominal rkap, cek portofolio
             address_rkap = f"https://crm.ptsi.co.id/index.php/project/rkap/view/{kode_proyek}#rkap"
-            nama_crm, rkap_crm = extract_proyek_rkap_crm(driver, address_rkap)
+            driver.get(address_rkap)
+            time.sleep(2)
+            nama_crm, rkap_crm = extract_proyek_rkap_crm(driver)
 
             pend_1 = df_filtered['pend_1'].iloc[0] if 'pend_1' in df_filtered.columns else "Tidak ada"
             pend_1_formatted = formated_number(pend_1)
@@ -110,7 +113,9 @@ def main():
             # ==========================================
             address_rab = f"https://crm.ptsi.co.id/index.php/project/rkap/view/{kode_proyek}#rab"
             print(f"Beralih ke laman {address_rab} untuk mulai input data RAB...")
-            dataset_per_proyek = create_dataset_per_proyek(driver, address_rab, df_filtered)
+            driver.get(address_rab)
+            time.sleep(2)
+            dataset_per_proyek = create_dataset_per_proyek(df_filtered)
             
             # cek apakah prooyek desentralisasi (tidak bisa input bulanan)
             a_tags = driver.find_elements(By.XPATH, "//div[@id='rab-bulanan']//a")

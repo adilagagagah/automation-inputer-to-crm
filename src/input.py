@@ -4,10 +4,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 
-def create_dataset_per_proyek(driver, address, df_filtered):
-    driver.get(address)
-    time.sleep(2) # Beri jeda sebelum mulai klik bulan
-    
+def create_dataset_per_proyek(df_filtered):
     dataset_per_proyek = []
     for index, row in df_filtered.iterrows():
         dataset_per_proyek.append({
@@ -23,7 +20,7 @@ def create_dataset_per_proyek(driver, address, df_filtered):
         })
     return dataset_per_proyek
 
-def input_data_proyek(driver, dataset_per_proyek):    
+def input_data_proyek(driver, dataset_per_proyek):
     dataset_per_proyek = dataset_per_proyek[1:]
     for bulan in dataset_per_proyek:
         target_bulan = bulan["bulan"][:3].capitalize()    

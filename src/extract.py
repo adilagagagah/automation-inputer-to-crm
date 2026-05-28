@@ -27,10 +27,7 @@ def extract_kode_proyek(input_link):
     return kode_proyek
 
 
-def extract_proyek_rkap_crm(driver, address):
-    driver.get(address)
-    time.sleep(2) # Beri jeda agar halaman sepenuhnya dimuat
-    
+def extract_proyek_rkap_crm(driver):    
     proyek_CRM = "-"
     rkap_proyek_CRM = "-"
     try:
