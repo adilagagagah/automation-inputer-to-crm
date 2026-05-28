@@ -114,3 +114,30 @@ Detail Portofolio Mismatch:
 - Proyek: Sertifikasi Laik Operasi 475 | Kode: 21604 | ⚠️ Mismatch Portofolio - Web: 'DBS COAL & MINERAL', Excel: 'DBS Infrastructure & Transportation'
 ==========================================
 
+==========================================
+PROSES SELESAI! Seluruh data proyek telah diinput.
+Sumber File Excel  : private/REAL_RKAP.xlsx
+Sumber Sheet       : siceh
+Waktu Mulai        : 2026-05-28 16:12:58
+Waktu Selesai      : 2026-05-28 17:09:24
+Total Durasi       : 0:56:26
+Total Proyek       : 73
+Berhasil Diupdate  : 69
+Proyek Dilewati    : 4
+Portofolio Mismatch: 3
+
+Detail Proyek Dilewati (Skipped):
+- Proyek: Provision of Land 3D Seismic Acquisition AOB Extension 240 Km2 WKB 69 | Keterangan: Proyek desentralisasi
+- Proyek: Q&Q Komoditi Mineral dan Batubara 70 | Keterangan: Proyek desentralisasi
+- Proyek: Jasa Cargo Monitoring Load Transport Unload BBM Menggunakan Moda Transportasi Kapal Tahun 2025 125 | Keterangan: Proyek desentralisasi
+- Proyek: Beban Tetap 141
+
+Detail Portofolio Mismatch:
+- Proyek: Sertifikasi dan Kalibrasi Peralatan 89 | Kode: 21343 | ⚠️ Mismatch Portofolio - Web: 'DBS COAL & MINERAL', Excel: 'DBS Oil, Gas, & Renewable Energy'
+- Proyek: Jasa Verifikasi TKDN Pembangunan PLTA di daerah Redelong 101 | Kode: 22572 | ⚠️ Mismatch Portofolio - Web: 'DBS OIL GAS & RENEWABLE ENERGY', Excel: 'DBS Industrial Services'
+- Proyek: Jasa Manajemen Konstruksi Pembangunan PLTA di daerah Redelong 105 | Kode: 21321 | ⚠️ Mismatch Portofolio - Web: 'DBS OIL GAS & RENEWABLE ENERGY', Excel: 'DBS Infrastructure & Transportation'
+
+Detail Error Input Data:
+- Proyek: Sertifikasi Jackstand dan Tangki Timbun 122 | Kode: 21365 | Bulan: Des
+==========================================
+
