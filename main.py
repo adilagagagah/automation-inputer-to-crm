@@ -107,11 +107,6 @@ def main():
             if pesan_mismatch:
                 list_mismatch.append(f"Proyek: {target_proyek} | Kode: {kode_proyek} | {pesan_mismatch}")
                 mismatch_count += 1
-                
-            if abs(clear_formated(pend_crm_formatted) - clear_formated(pend_1_formatted)) > 0:
-                pesan_mismatch += " - Nilai RKAP CRM berbeda"
-                list_mismatch.append(f"Proyek: {target_proyek} | Kode: {kode_proyek} | {pesan_mismatch}")
-                mismatch_count += 1
 
             # ==========================================
             # MEMBUKA HALAMAN RAB UNTUK INPUT DATA
