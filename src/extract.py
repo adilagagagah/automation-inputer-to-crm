@@ -25,6 +25,17 @@ def formated_number(number):
         # Jika gagal karena nilainya murni teks (misal: "Tidak ada" atau "-"), kembalikan aslinya
         return str(number)
 
+def clear_formated(formated_number):
+    if not isinstance(formated_number, str):
+        return 0
+        
+    try:
+        # Hapus titik (pemisah ribuan) dan ubah koma menjadi titik (pemisah desimal)
+        cleaned = formated_number.replace(".", "").replace(",", ".")
+        return float(cleaned)
+    except ValueError:
+        return 0
+
 def extract_kode_proyek(input_link):
     if "view/" in input_link:
         kode_proyek = input_link.split("view/")[-1].strip()

@@ -8,7 +8,7 @@ from selenium.webdriver.common.by import By
 from src.config import inisialisasi_chrome
 from src.log import get_menu, catat_proyek_done, create_summary_log
 from src.validation import duplicate_link_validation, address_link_validation, portofolio_validation, is_already_done
-from src.extract import formated_number, extract_kode_proyek, extract_proyek_rkap_crm
+from src.extract import formated_number, clear_formated, extract_kode_proyek, extract_proyek_rkap_crm
 from src.import_excel import import_excel
 from src.input import create_dataset_per_proyek, input_data_proyek
 
@@ -105,6 +105,11 @@ def main():
             print(f"\nSedang berada di laman {address_rkap} untuk cek Portofolio...")
             pesan_mismatch = portofolio_validation(driver, kode_proyek, df_filtered)
             if pesan_mismatch:
+                list_mismatch.append(f"Proyek: {target_proyek} | Kode: {kode_proyek} | {pesan_mismatch}")
+                mismatch_count += 1
+                
+            if abs(clear_formated(pend_crm_formatted) - clear_formated(pend_1_formatted)) > 0:
+                pesan_mismatch += " - Nilai RKAP CRM berbeda"
                 list_mismatch.append(f"Proyek: {target_proyek} | Kode: {kode_proyek} | {pesan_mismatch}")
                 mismatch_count += 1
 
