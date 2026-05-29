@@ -16,8 +16,8 @@ def main():
     # membaca data dari excel
     print("\nMembaca dan memproses file Excel...")
     excel_file = 'private/REAL_RKAP.xlsx'
-    excel_sheet = input("\nMasukkan nama sheet Excel yang akan diproses (misal: SIBPP): ")
-    df = import_excel(excel_file, excel_sheet=excel_sheet.upper())
+    excel_sheet = input("\nMasukkan nama sheet Excel yang akan diproses (misal: SIBPP): ").upper()
+    df = import_excel(excel_file, excel_sheet=excel_sheet)
     df['proyek_nomor'] = df['proyek_nomor'].apply(lambda x: " ".join(str(x).split()) if pd.notnull(x) else x)
 
     unique_projects = df['proyek_nomor'].dropna().unique()
@@ -31,13 +31,13 @@ def main():
     if os.path.exists(proyek_done_file):
         get_menu(proyek_done_file, processed_projects)
 
-    # validasi data exclude skip, apakah link sudah unique semua
-    print(duplicate_link_validation(df))
-    print(address_link_validation(df))
-
     # buka chrome
     driver = inisialisasi_chrome()
     input("\nPastikan Anda sudah login di browser, lalu tekan Enter di sini untuk mulai otomatisasi...")
+
+    # validasi data exclude skip, apakah link sudah unique semua
+    print(duplicate_link_validation(df))
+    print(address_link_validation(df))
 
     # Mengaktifkan wakepy agar layar tetap menyala (presenting mode)
     screen_awake = keep.presenting()
@@ -70,7 +70,7 @@ def main():
             time.sleep(2)
             nama_crm, rkap_crm = extract_proyek_rkap_crm(driver)
 
-            pend_1 = df_filtered['pend_1'].iloc[0] if 'pend_1' in df_filtered.columns else "Tidak ada"
+            pend_1 = df_filtered['pend_1'].iloc[0] if 'pend_1' in df_filtered.columns else 0
             pend_1_formatted = formated_number(pend_1)
             pend_crm_formatted = formated_number(rkap_crm)
 
@@ -83,7 +83,7 @@ def main():
             print(f"PENDAPATAN RKAP REAL  : {pend_1_formatted}")
             print(f"==========================================")
         
-            if not input_link or input_link.lower() == "nan" or str(input_link) == "0":
+            if not input_link or input_link.lower() == "nan" or str(input_link) == "Tidak ada":
                 print("⚠️ Link tidak ditemukan di data Excel. Melewati proyek ini...")
                 list_skipped.append(f"Proyek: {target_proyek}")
                 skipped_count += 1
@@ -117,7 +117,7 @@ def main():
             time.sleep(2)
             dataset_per_proyek = create_dataset_per_proyek(df_filtered)
             
-            # cek apakah prooyek desentralisasi (tidak bisa input bulanan)
+            # cek apakah proyek desentralisasi (tidak bisa input bulanan)
             a_tags = driver.find_elements(By.XPATH, "//div[@id='rab-bulanan']//a")
             if not a_tags:
                 print(f"⚠️ Tidak ada link bulan (tag a). Terdeteksi proyek desentralisasi. Lanjut ke proyek selanjutnya...")
@@ -127,8 +127,9 @@ def main():
 
             print(f"✅ Berhasil memuat {len(dataset_per_proyek)-1} baris data untuk proyek tersebut.")
             print(f"Mulai input data untuk seluruh bulan...")
+
+            # Input data setiap bulan
             input_data_proyek(driver, dataset_per_proyek)
-            
             catat_proyek_done(proyek_done_file, target_proyek, pesan_mismatch)
             updated_count += 1
         

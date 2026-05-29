@@ -42,7 +42,7 @@ Detail Portofolio Mismatch:
 ==========================================
 PROSES SELESAI! Seluruh data proyek telah diinput.
 Sumber File Excel  : private/REAL_RKAP.xlsx
-Sumber Sheet       : simak
+Sumber Sheet       : SIMAK
 Waktu Mulai        : 2026-05-25 20:59:42
 Waktu Selesai      : 2026-05-25 22:43:12
 Total Durasi       : 1:43:30
@@ -78,7 +78,7 @@ Detail Error Input Data:
 ==========================================
 PROSES SELESAI! Seluruh data proyek telah diinput.
 Sumber File Excel  : private/REAL_RKAP.xlsx
-Sumber Sheet       : ogr
+Sumber Sheet       : OGR
 Waktu Mulai        : 2026-05-26 11:38:41
 Waktu Selesai      : 2026-05-26 12:22:13
 Total Durasi       : 0:43:32
@@ -94,7 +94,7 @@ Detail Proyek Dilewati (Skipped):
 ==========================================
 PROSES SELESAI! Seluruh data proyek telah diinput.
 Sumber File Excel  : private/REAL_RKAP.xlsx
-Sumber Sheet       : sijak
+Sumber Sheet       : SIJAK
 Waktu Mulai        : 2026-05-27 22:14:03
 Waktu Selesai      : 2026-05-27 23:50:42
 Total Durasi       : 1:36:38
@@ -117,7 +117,7 @@ Detail Portofolio Mismatch:
 ==========================================
 PROSES SELESAI! Seluruh data proyek telah diinput.
 Sumber File Excel  : private/REAL_RKAP.xlsx
-Sumber Sheet       : siceh
+Sumber Sheet       : SICEH
 Waktu Mulai        : 2026-05-28 16:12:58
 Waktu Selesai      : 2026-05-28 17:09:24
 Total Durasi       : 0:56:26
@@ -144,7 +144,7 @@ Detail Error Input Data:
 ==========================================
 PROSES SELESAI! Seluruh data proyek telah diinput.
 Sumber File Excel  : private/REAL_RKAP.xlsx
-Sumber Sheet       : gni
+Sumber Sheet       : GNI
 Waktu Mulai        : 2026-05-28 19:08:25
 Waktu Selesai      : 2026-05-28 19:39:06
 Total Durasi       : 0:30:41

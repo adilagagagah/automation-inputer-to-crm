@@ -48,9 +48,12 @@ def input_data_proyek(driver, dataset_per_proyek):
                         EC.element_to_be_clickable((By.ID, id_elemen))
                     )
                     
-                    # Cek apakah form kosong dan nilai yang akan diinput adalah "0"
+                    # Dapatkan nilai saat ini pada form dan hilangkan format angka (titik/koma) jika ada
                     current_value = input_field.get_attribute("value")
-                    if (not current_value or current_value.strip() == "") and str(nilai_input) == "0":
+                    cleaned_current_value = current_value.replace(".", "").replace(",", "").strip() if current_value else ""
+                    
+                    # Cek apakah form kosong & nilai yang diinput "0", ATAU nilai di form sudah sama dengan nilai_input
+                    if (cleaned_current_value == "" and str(nilai_input) == "0") or (cleaned_current_value == str(nilai_input)):
                         continue
                     
                     input_field.click()

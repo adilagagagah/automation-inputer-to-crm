@@ -14,7 +14,16 @@ def bersihkan_teks(teks):
     return t
 
 def formated_number(number):
-    return f"{number:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
+    # Jika nilai berupa teks, hilangkan titik terlebih dahulu
+    if isinstance(number, str):
+        number = number.replace(".", "")
+        
+    try:
+        # Coba ubah ke angka desimal dan format ke gaya Indonesia (1.000.000,00)
+        return f"{float(number):,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
+    except (ValueError, TypeError):
+        # Jika gagal karena nilainya murni teks (misal: "Tidak ada" atau "-"), kembalikan aslinya
+        return str(number)
 
 def extract_kode_proyek(input_link):
     if "view/" in input_link:
@@ -48,6 +57,3 @@ def extract_proyek_rkap_crm(driver):
         rkap_proyek_CRM = "Tidak ditemukan"
     
     return proyek_CRM, rkap_proyek_CRM
-
-
-
