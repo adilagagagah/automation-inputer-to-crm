@@ -159,3 +159,27 @@ Detail Proyek Dilewati (Skipped):
 - Proyek: Beban Tetap 175
 ==========================================
 
+==========================================
+PROSES SELESAI! Seluruh data proyek telah diinput.
+Sumber File Excel  : private/REAL_RKAP.xlsx
+Sumber Sheet       : INT
+Waktu Mulai        : 2026-05-29 11:27:57
+Waktu Selesai      : 2026-05-29 12:19:39
+Total Durasi       : 0:51:41
+Total Proyek       : 64
+Berhasil Diupdate  : 62
+Proyek Dilewati    : 2
+Portofolio Mismatch: 5
+
+Detail Proyek Dilewati (Skipped):
+- Proyek: Audit Siap Selamat 544
+- Proyek: Beban Tetap 560
+
+Detail Portofolio Mismatch:
+- Proyek: SPM, SKP 500 | Kode: 21759 | ⚠️ Mismatch Portofolio - Web: 'DBS GOVERNMENT & INSTITUTION', Excel: 'DBS Infrastructure & Transportation'
+- Proyek: PENGAWASAN KONSTRUKSI 525 | Kode: 21745 | ⚠️ Mismatch Portofolio - Web: 'DBS GOVERNMENT & INSTITUTION', Excel: 'DBS Infrastructure & Transportation'
+- Proyek: Pengawas GBI Balikpapan Tahap 2 545 | Kode: 21634 | ⚠️ Mismatch Portofolio - Web: 'DBS GOVERNMENT & INSTITUTION', Excel: 'DBS Infrastructure & Transportation'
+- Proyek: Assessment Gedung 546 | Kode: 21624 | ⚠️ Mismatch Portofolio - Web: 'DBS GOVERNMENT & INSTITUTION', Excel: 'DBS Infrastructure & Transportation'
+- Proyek: Manajemen Aset 559 | Kode: 21752 | ⚠️ Mismatch Portofolio - Web: 'DBS GOVERNMENT & INSTITUTION', Excel: 'DBS Infrastructure & Transportation'
+==========================================
+
