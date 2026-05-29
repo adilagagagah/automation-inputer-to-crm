@@ -1,62 +1,12 @@
-Konsultan Transformasi Digital 497
-KPI KPBU Penerangan Jalan Umum 498
-Konsultan Non Farebox BTS 499
-SPM, SKP 500 | ⚠️ Mismatch Portofolio - Web: 'DBS GOVERNMENT & INSTITUTION', Excel: 'DBS Infrastructure & Transportation'
-BTS Semarang (APBD) 501
-Konsultan Track Access Charge (TAC) 502
-Jasa Konsultansi O&M Sarana 503
-Jasa Konsultansi pendampingan perencanaan 5 TS 504
-Jasa Konsultansi pengawasan atas pengadaan 5 TS 505
-Jasa Konsultansi Pengawasan 612 506
-Jasa Konsultansi Pengawasan 1125 507
-Jasa Konsultansi Pengadaan, Pengawasan Retrofit 2 TS 508
-Inspeksi Kapal (BAG) 509
-BTS Medan (APBD) 510
-BTS Kalimantan Selatan (APBD) 511
-BTS Palembang (APBD) 512
-BTS Bali (APBD) 513
-BTS Surabaya (APBD) 514
-BTS Bandung (APBD) 515
-BTS APBN 516
-KPI Satelit Multifungsi 517
-Konsultan Pengawas PMN LEN 518
-Pelaksanaan Pekerjaan Konsultan Pengawas Independen Palapa Ring Barat, Tahap O&M 519
-Pelaksanaan Pekerjaan Konsultan Pengawas Independen Palapa Ring Tengah, Tahap O&M 520
-Konsultan Pengawas Independen Proyek KPBU Bandara Hang Nadim 521
-Pekerjaan Jasa Konsultan Penyusunan Kajian Standarisasi Service Fee dalam rangka Pemanfaatan Kegiatan Bongkar Muat pada Angkutan Batu Bara di Lahan Non Aset PT Kereta Api Indonesia (Persero) dan Standarisasi Tarif Sewa Kontainer untuk Angkutan Batu B 522
-Jasa Konsultansi Survei Consumer Behaviour SBN Group 523
-Survei Kepuasan Pelanggan PT PELNI (Persero) Tahun 2025 524
-PENGAWASAN KONSTRUKSI 525 | ⚠️ Mismatch Portofolio - Web: 'DBS GOVERNMENT & INSTITUTION', Excel: 'DBS Infrastructure & Transportation'
-Jasa Konsultan Manajemen Konstruksi Renovasi Kantor Wilayah 06 526
-Pengadaan Jasa Konsultan Manajemen Konstruksi Revitalisasi Gedung KC Sintang 527
-PENGAWASAN KONSTRUKSI TRANSPORTASI 528
-Pengadaan Jasa Investigasi dan Analisis Teknis atas Kelongsoran DK47-DK68-DK69 Kereta Api Cepat Jakarta – Bandung 529
-Konsultan KPBU Telekomunikasi 530
-Kajian Teknis Konstruksi Transportasi 531
-Konsultan Bandara 532
-Logistics Aviation Technical Studies 533
-Kajian Teknis Konstruksi 534
-BTS Jabodetabek (Bogor, Depok, Makassar) 535
-Konsultan Pekerjaan Percepatan LRT-KAI 536
-Konsultasi Jembatan Timbang 537
-Konsultasi ATMS (Advanced Traffic Management System) 538
-Survey Kondisi Jaringan Jalan 539
-Konsultan KPBU Bangunan 540
-Perencanaan Pemasangan Pengaman Pagar Pembatas LRT 541
-Pekerjaan Jasa Konsultansi Perencanaan Penambahan Instalasi AC di Unpaid Area Stasiun LRT Jabodebek 542
-Perencana dan Pengawas Konstruksi SPAM 543
-Pengawas GBI Balikpapan Tahap 2 545 | ⚠️ Mismatch Portofolio - Web: 'DBS GOVERNMENT & INSTITUTION', Excel: 'DBS Infrastructure & Transportation'
-Assessment Gedung 546 | ⚠️ Mismatch Portofolio - Web: 'DBS GOVERNMENT & INSTITUTION', Excel: 'DBS Infrastructure & Transportation'
-Supervisi Stasiun Jember 547
-Studi Kelayakan Bisnis 548
-Konsultan Pengurusan SLF 549
-Survei Index 550
-Konsultan Pengurusan SLO 551
-Supervisi Penataan Drainase di Emplasemen Stasiun Sukacinta 552
-Pemetaan dan Pengukuran Lahan 553
-Konsultan Profesional Service OM 554
-Survei dan Konsultasi terkait Bisnis, Pelayanan pelanggan dan SDM 555
-Analisa gangguan persignalan kereta/MSA Signaling 556
-Pelaksanaan Pendampingan Verifikasi Subsidi/PSO 557
-Agen Pengadaan 558
-Manajemen Aset 559 | ⚠️ Mismatch Portofolio - Web: 'DBS GOVERNMENT & INSTITUTION', Excel: 'DBS Infrastructure & Transportation'
+TKDNI RETAIL 2026 52
+TKDN MIGAS PROJECT 53
+TKDN MIGAS RETAIL 54
+TKDN PEMBANGKIT - GI 2026 55
+TKDN BUMN 2026 56
+TKDN INVESTASI 57
+SERTIFIKASI HALAL 58
+SISTEM MANAJEMEN 59
+TKDNI FASILITAS 2026 60
+KAJIAN P3DN INDUSTRI 61
+KAJIAN P3DN NON INDUSTRI 62
+AUDIT PROJECT FINANCE 63

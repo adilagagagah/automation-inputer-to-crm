@@ -183,3 +183,19 @@ Detail Portofolio Mismatch:
 - Proyek: Manajemen Aset 559 | Kode: 21752 | ⚠️ Mismatch Portofolio - Web: 'DBS GOVERNMENT & INSTITUTION', Excel: 'DBS Infrastructure & Transportation'
 ==========================================
 
+==========================================
+PROSES SELESAI! Seluruh data proyek telah diinput.
+Sumber File Excel  : private/REAL_RKAP.xlsx
+Sumber Sheet       : INS
+Waktu Mulai        : 2026-05-29 12:41:57
+Waktu Selesai      : 2026-05-29 12:53:16
+Total Durasi       : 0:11:19
+Total Proyek       : 13
+Berhasil Diupdate  : 12
+Proyek Dilewati    : 1
+Portofolio Mismatch: 0
+
+Detail Proyek Dilewati (Skipped):
+- Proyek: Beban Tetap 64
+==========================================
+
