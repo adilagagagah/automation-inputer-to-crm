@@ -13,6 +13,8 @@ from src.import_excel import import_excel
 from src.input import create_dataset_per_proyek, input_data_proyek
 
 def main():
+    # pyinstaller --onefile --hidden-import="selenium" --hidden-import="selenium.webdriver" --hidden-import="selenium.webdriver.chrome.webdriver" main.py
+
     # membaca data dari excel
     print("\nMembaca dan memproses file Excel...")
     excel_file = 'private/REAL_RKAP.xlsx'
