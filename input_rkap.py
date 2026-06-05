@@ -31,7 +31,7 @@ def main():
     processed_projects = {}
 
     if os.path.exists(proyek_done_file):
-        processed_projects = get_menu(proyek_done_file, processed_projects)
+        get_menu(proyek_done_file, processed_projects)
 
     # buka chrome
     driver = inisialisasi_chrome()
