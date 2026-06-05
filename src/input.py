@@ -96,8 +96,17 @@ def input_rab_kumulatif(driver, address, dataset_per_proyek):
     while True:
         try:
             address_rkap = f"{address}#rkap"
+            print(f"\nBeralih ke laman {address_rkap} untuk cek dan edit RKAP Pendapatan...")
             driver.get(address_rkap)
-            time.sleep(2)
+            time.sleep(1)
+            
+            # Memastikan tab RKAP diklik secara eksplisit (penting untuk antarmuka berbasis Tab)
+            try:
+                tab_rkap = driver.find_element(By.XPATH, "//a[contains(@href, '#rkap')]")
+                driver.execute_script("arguments[0].click();", tab_rkap)
+                time.sleep(1)
+            except:
+                pass
             
             is_changed = False
             
@@ -114,12 +123,27 @@ def input_rab_kumulatif(driver, address, dataset_per_proyek):
                 estimasi_input.send_keys(Keys.CONTROL + "a")
                 estimasi_input.send_keys(Keys.BACKSPACE)
                 estimasi_input.send_keys(target_value)
+                estimasi_input.send_keys(Keys.TAB)
                 time.sleep(0.2)
                 is_changed = True
+                print("✅ DATA [KUMULATIF] NILAI RKAP PENDAPATAN BERHASIL DIUPDATE DAN DISIMPAN!")
+            else:
+                print("✅ DATA [KUMULATIF] NILAI RKAP PENDAPATAN SUDAH SESUAI, TIDAK ADA PERUBAHAN.")
 
             address_rab = f"{address}#rab"
+            print(f"\nBeralih ke laman {address_rab} untuk cek dan edit RAB...")
             driver.get(address_rab)
-            time.sleep(2)
+            time.sleep(1)
+            
+            # Memastikan tab RAB aktif agar elemen input di dalamnya menjadi terlihat dan dapat diklik
+            try:
+                tab_rab = driver.find_element(By.XPATH, "//a[contains(@href, '#rab')]")
+                driver.execute_script("arguments[0].click();", tab_rab)
+                time.sleep(1)
+            except:
+                pass
+
+            print("sudah masuk ke laman RAB")
             for id_elemen, nilai_input in data_kumulatif.items():
                 if id_elemen == "bulan" or id_elemen == "b_pendapatan":
                     continue
@@ -134,30 +158,41 @@ def input_rab_kumulatif(driver, address, dataset_per_proyek):
                 
                 # Cek apakah form kosong & nilai yang diinput "0", ATAU nilai di form sudah sama dengan nilai_input
                 if (cleaned_current_value == "" and str(nilai_input) == "0") or (cleaned_current_value == str(nilai_input)):
+                    print(f"✅ DATA [KUMULATIF] NILAI RAB {id_elemen} SUDAH SESUAI, TIDAK ADA PERUBAHAN.")
                     continue
                 
-                input_field.click()
-                input_field.send_keys(Keys.CONTROL + "a")
-                input_field.send_keys(Keys.BACKSPACE)
-                input_field.send_keys(str(nilai_input))
-                time.sleep(0.2)
-                is_changed = True
+                # Gunakan try-except untuk interaksi field, sehingga jika ada field readonly (seperti b_jasa) script tidak mati
+                try:
+                    driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", input_field)
+                    time.sleep(0.1)
+                    driver.execute_script("arguments[0].click();", input_field)
+    
+                    input_field.click()
+                    input_field.send_keys(Keys.CONTROL + "a")
+                    input_field.send_keys(Keys.BACKSPACE)
+                    input_field.send_keys(str(nilai_input))
+                    input_field.send_keys(Keys.TAB)
+                    time.sleep(0.2)
+                    is_changed = True
+                    print(f"✅ DATA [KUMULATIF] NILAI RAB {id_elemen} BERHASIL DIUPDATE DAN DISIMPAN!")
+                except Exception as ex:
+                    print(f"⚠️ Peringatan: Gagal menginput {id_elemen}. Error detail: {type(ex).__name__}")
 
             if is_changed:
-                estimasi_input.send_keys(Keys.TAB) 
                 time.sleep(1) 
                 tombol_simpan = WebDriverWait(driver, 10).until(
                     EC.element_to_be_clickable((By.NAME, "btn-save"))
                 )
                 driver.execute_script("arguments[0].click();", tombol_simpan)
                 print(f"✅ DATA [KUMULATIF] BERHASIL DIUPDATE DAN DISIMPAN!")
-                time.sleep(2)
             else:
                 print(f"✅ DATA [KUMULATIF] SUDAH SESUAI, TIDAK ADA PERUBAHAN.")
+                
+            break  # Berhasil memproses kumulatif, keluar dari perulangan
         
         except Exception as e:
             # JIKA ERROR (misal elemen tidak ditemukan / timeout):
-            print(f"\n[⚠️ ERROR] Gagal memproses nilai kumulatif.")
+            print(f"\n[⚠️ ERROR] Gagal memproses nilai kumulatif. Detail: {e}")
             print("Merefresh halaman dan mencoba input ulang...")
             driver.refresh()
             time.sleep(1) # Tunggu sejenak setelah refresh agar script siap membaca ulang web

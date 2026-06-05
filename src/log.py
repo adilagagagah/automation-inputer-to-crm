@@ -20,12 +20,12 @@ def get_menu(proyek_done_file, processed_projects):
             pilihan = input("Masukkan pilihan (0/1/2): ")
             if pilihan == '1':
                 print("⏩ Melanjutkan dari proyek yang belum di input...")
-                break
+                return processed_projects
             elif pilihan == '2':
                 print("🔄 Mulai dari awal. proyek_done dibersihkan...")
                 processed_projects = {}
                 open(proyek_done_file, "w").close() # Kosongkan file proyek_done
-                break
+                return processed_projects
             elif pilihan == '0':
                 sys.exit(1)
             else:

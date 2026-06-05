@@ -31,7 +31,7 @@ def main():
     processed_projects = {}
 
     if os.path.exists(proyek_done_file):
-        get_menu(proyek_done_file, processed_projects)
+        processed_projects = get_menu(proyek_done_file, processed_projects)
 
     # buka chrome
     driver = inisialisasi_chrome()
@@ -69,7 +69,6 @@ def main():
             # ambil nama proyek crm, ambil nominal rkap, cek portofolio
             address_rkap = f"https://crm.ptsi.co.id/index.php/project/rkap/view/{kode_proyek}#rkap"
             driver.get(address_rkap)
-            time.sleep(2)
             nama_crm, rkap_crm = extract_proyek_rkap_crm(driver)
 
             pend_1 = df_filtered['pend_1'].iloc[0] if 'pend_1' in df_filtered.columns else 0
@@ -108,13 +107,11 @@ def main():
                 continue
 
             address_edit = f"https://crm.ptsi.co.id/index.php/project/rkap/edit/{kode_proyek}"
-            print(f"\nSedang berada di laman {address_edit} untuk mengedit RAB...")
             dataset_per_proyek = create_dataset_per_proyek(df_filtered)
 
             input_rab_kumulatif(driver, address_edit, dataset_per_proyek)
             catat_proyek_done(proyek_done_file, target_proyek)
             updated_count += 1
-            break
         
         except Exception as e:
             print(f"\n[⚠️ ERROR Sistem] Gagal memproses keseluruhan proyek {target_proyek}: {e}")
