@@ -199,3 +199,30 @@ Detail Proyek Dilewati (Skipped):
 - Proyek: Beban Tetap 64
 ==========================================
 
+==========================================
+PROSES SELESAI! Seluruh data proyek telah diinput.
+Sumber File Excel  : private/REAL_RKAP.xlsx
+Sumber Sheet       : SIBPP
+Waktu Mulai        : 2026-06-06 02:19:29
+Waktu Selesai      : 2026-06-06 02:39:20
+Total Durasi       : 0:19:50
+Total Proyek       : 90
+Berhasil Diupdate  : 78
+Proyek Dilewati    : 12
+Portofolio Mismatch: 0
+
+Detail Proyek Dilewati (Skipped):
+- Proyek: Advance NDT ( ECT & IRIS & PAUT) 340
+- Proyek: Q&Q Batubara 408
+- Proyek: Q&Q Batubara 409
+- Proyek: Q&Q Batubara 410
+- Proyek: Q&Q Batubara 411
+- Proyek: Q&Q Batubara 412
+- Proyek: Q&Q Batubara 413
+- Proyek: Q&Q Batubara 414
+- Proyek: Q&Q Batubara 415
+- Proyek: Q&Q Batubara 416
+- Proyek: Q&Q Batubara 417
+- Proyek: Beban Tetap 418
+==========================================
+
