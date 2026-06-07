@@ -13,7 +13,7 @@ from src.import_excel import import_excel
 from src.input import create_dataset_per_proyek, input_rab_kumulatif
 
 def main():
-    # pyinstaller --onefile --hidden-import="selenium" --hidden-import="selenium.webdriver" --hidden-import="selenium.webdriver.chrome.webdriver" main.py
+    # pyinstaller --onefile --hidden-import="selenium" --hidden-import="selenium.webdriver" --hidden-import="selenium.webdriver.chrome.webdriver" input_rkap.py
 
     # membaca data dari excel
     print("\nMembaca dan memproses file Excel...")
@@ -109,8 +109,8 @@ def main():
             address_edit = f"https://crm.ptsi.co.id/index.php/project/rkap/edit/{kode_proyek}"
             dataset_per_proyek = create_dataset_per_proyek(df_filtered)
 
-            input_rab_kumulatif(driver, address_edit, dataset_per_proyek)
-            catat_proyek_done(proyek_done_file, target_proyek)
+            pesan_input = input_rab_kumulatif(driver, address_edit, dataset_per_proyek)
+            catat_proyek_done(proyek_done_file, target_proyek, pesan_input)
             updated_count += 1
         
         except Exception as e:

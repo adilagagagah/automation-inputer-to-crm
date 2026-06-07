@@ -226,3 +226,33 @@ Detail Proyek Dilewati (Skipped):
 - Proyek: Beban Tetap 418
 ==========================================
 
+==========================================
+PROSES SELESAI! Seluruh data proyek telah diinput.
+Sumber File Excel  : private/REAL_RKAP.xlsx
+Sumber Sheet       : SIMAK
+Waktu Mulai        : 2026-06-06 22:13:04
+Waktu Selesai      : 2026-06-06 23:04:30
+Total Durasi       : 0:51:26
+Total Proyek       : 153
+Berhasil Diupdate  : 138
+Proyek Dilewati    : 15
+Portofolio Mismatch: 0
+
+Detail Proyek Dilewati (Skipped):
+- Proyek: Pekerjaan Rehabilitasi DAS Pemenuhan Komitmen Kewajiban PPKH untuk Pembangunan PLTMG MPP Timika (10 MW), PLTMG Timika (40 MW), dan SUTT 150 KV Atas Nama PT PLN (Persero) Seluas 86,5 Ha 176 | Keterangan: Proyek desentralisasi
+- Proyek: Pekerjaan Jasa Riksa Uji K3 Peralatan 197
+- Proyek: JASA SERTIFIKASI PERALATAN ALAT ANGKAT ANGKUT DAN BEJANA TEKAN SB2 UNIT 3 (1x100 MW) TAHAP 2 220
+- Proyek: Pengadaan Jasa Konsultansi Survei, Pendampingan Sosialisasi, Inventarisasi, dan Pemberkasan ROW SUTT 150 kV GI Sofifi - GI Jailolo 255
+- Proyek: Desentralisasi Pekerjaan Cargo Monitoring DBS OGR (HO Makassar) 287
+- Proyek: Desentralisasi Pekerjaan Cargo Monitoring DBS OGR (RO Kendari) 288
+- Proyek: Desentralisasi Pekerjaan Cargo Monitoring DBS OGR (RO Morowali) 289
+- Proyek: Desentralisasi Pekerjaan Cargo Monitoring DBS OGR (RO Sorong) 290
+- Proyek: Desentralisasi Pekerjaan Cargo Monitoring DBS OGR (RO Ternate) 291
+- Proyek: Desentralisasi Q&Q Coal and Mineral_100% (RO KENDARI) 292
+- Proyek: Desentralisasi Q&Q Coal and Mineral_100% (RO MOROWALI) 293
+- Proyek: Desentralisasi Q&Q Coal and Mineral_100% (RO TERNATE) 294
+- Proyek: Desentralisasi Q&Q Coal and Mineral_100% (HO MAKASSAR) 295
+- Proyek: Riksa Uji K3 297
+- Proyek: Beban Tetap 328
+==========================================
+

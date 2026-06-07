@@ -22,6 +22,7 @@ def create_dataset_per_proyek(df_filtered):
 
 def input_data_proyek(driver, dataset_per_proyek):
     dataset_per_proyek = dataset_per_proyek[1:]
+    pesan_tambahan = ""
     for bulan in dataset_per_proyek:
         target_bulan = bulan["bulan"][:3].capitalize()    
         while True:
@@ -43,28 +44,36 @@ def input_data_proyek(driver, dataset_per_proyek):
                         continue
                         
                     # print(f"[{target_bulan}] Mengisi {id_elemen} -> {nilai_input}")
-                    
-                    input_field = WebDriverWait(driver, 10).until(
-                        EC.element_to_be_clickable((By.ID, id_elemen))
-                    )
-                    
-                    # Dapatkan nilai saat ini pada form dan hilangkan format angka (titik/koma) jika ada
-                    current_value = input_field.get_attribute("value")
-                    cleaned_current_value = current_value.replace(".", "").replace(",", "").strip() if current_value else ""
-                    
-                    # Cek apakah form kosong & nilai yang diinput "0", ATAU nilai di form sudah sama dengan nilai_input
-                    if (cleaned_current_value == "" and str(nilai_input) == "0") or (cleaned_current_value == str(nilai_input)):
-                        continue
-                    
-                    input_field.click()
-                    input_field.send_keys(Keys.CONTROL + "a")
-                    input_field.send_keys(Keys.BACKSPACE)
-                    input_field.send_keys(str(nilai_input))
-                    
-                    time.sleep(0.2)
+                    try:
+                        input_field = WebDriverWait(driver, 5).until(
+                            EC.element_to_be_clickable((By.ID, id_elemen))
+                        )
+                        
+                        # Dapatkan nilai saat ini pada form dan hilangkan format angka (titik/koma) jika ada
+                        current_value = input_field.get_attribute("value")
+                        cleaned_current_value = current_value.replace(".", "").replace(",", "").strip() if current_value else ""
+                        
+                        # Cek apakah form kosong & nilai yang diinput "0", ATAU nilai di form sudah sama dengan nilai_input
+                        if (cleaned_current_value == "" and str(nilai_input) == "0") or (cleaned_current_value == str(nilai_input)):
+                            continue
+                        
+                        input_field.click()
+                        input_field.send_keys(Keys.CONTROL + "a")
+                        input_field.send_keys(Keys.BACKSPACE)
+                        input_field.send_keys(str(nilai_input))
+                        
+                        time.sleep(0.2)
+                    except Exception as ex:
+                        print(f"⚠️ Peringatan: Gagal menginput {id_elemen}. Error detail: {type(ex).__name__}")
+                        if id_elemen == "b_pendapatan":
+                            if "b_pendapatan tidak dapat diisi" not in pesan_tambahan:
+                                pesan_tambahan += "b_pendapatan tidak dapat diisi" if not pesan_tambahan else " | b_pendapatan tidak dapat diisi"
 
                 # print(f"[{target_bulan}] Memicu kalkulasi rumus web...")
-                input_field.send_keys(Keys.TAB) 
+                try:
+                    driver.switch_to.active_element.send_keys(Keys.TAB) 
+                except:
+                    pass
                 time.sleep(1) 
 
                 # print(f"[{target_bulan}] Memastikan tombol Simpan aktif...")
@@ -90,9 +99,11 @@ def input_data_proyek(driver, dataset_per_proyek):
                 print("Merefresh halaman dan mencoba input ulang...")
                 driver.refresh()
                 time.sleep(1) # Tunggu sejenak setelah refresh agar script siap membaca ulang web
+    return pesan_tambahan
 
 def input_rab_kumulatif(driver, address, dataset_per_proyek):
     data_kumulatif = dataset_per_proyek[0]
+    pesan_tambahan = ""
     while True:
         try:
             address_rkap = f"{address}#rkap"
@@ -110,25 +121,29 @@ def input_rab_kumulatif(driver, address, dataset_per_proyek):
             
             is_changed = False
             
-            estimasi_input = WebDriverWait(driver, 10).until(
-                EC.element_to_be_clickable((By.ID, "estimasi_nilai_kontrak"))
-            )
-            
-            current_value = estimasi_input.get_attribute("value")
-            cleaned_current_value = current_value.replace(".", "").replace(",", "").strip() if current_value else ""
-            target_value = str(data_kumulatif["b_pendapatan"])
-            
-            if cleaned_current_value != target_value:
-                estimasi_input.click()
-                estimasi_input.send_keys(Keys.CONTROL + "a")
-                estimasi_input.send_keys(Keys.BACKSPACE)
-                estimasi_input.send_keys(target_value)
-                estimasi_input.send_keys(Keys.TAB)
-                time.sleep(0.2)
-                is_changed = True
-                print("✅ DATA [KUMULATIF] NILAI RKAP PENDAPATAN BERHASIL DIUPDATE DAN DISIMPAN!")
-            else:
-                print("✅ DATA [KUMULATIF] NILAI RKAP PENDAPATAN SUDAH SESUAI, TIDAK ADA PERUBAHAN.")
+            try:
+                estimasi_input = WebDriverWait(driver, 5).until(
+                    EC.element_to_be_clickable((By.ID, "estimasi_nilai_kontrak"))
+                )
+                
+                current_value = estimasi_input.get_attribute("value")
+                cleaned_current_value = current_value.replace(".", "").replace(",", "").strip() if current_value else ""
+                target_value = str(data_kumulatif["b_pendapatan"])
+                
+                if cleaned_current_value != target_value:
+                    estimasi_input.click()
+                    estimasi_input.send_keys(Keys.CONTROL + "a")
+                    estimasi_input.send_keys(Keys.BACKSPACE)
+                    estimasi_input.send_keys(target_value)
+                    estimasi_input.send_keys(Keys.TAB)
+                    time.sleep(0.2)
+                    is_changed = True
+                    print("✅ DATA [KUMULATIF] NILAI RKAP PENDAPATAN BERHASIL DIUPDATE DAN DISIMPAN!")
+                else:
+                    print("✅ DATA [KUMULATIF] NILAI RKAP PENDAPATAN SUDAH SESUAI, TIDAK ADA PERUBAHAN.")
+            except Exception as ex:
+                print(f"⚠️ Peringatan: Gagal menginput estimasi_nilai_kontrak (Pendapatan). Error detail: {type(ex).__name__}")
+                pesan_tambahan = "b_pendapatan tidak dapat diisi"
 
             address_rab = f"{address}#rab"
             print(f"\nBeralih ke laman {address_rab} untuk cek dan edit RAB...")
@@ -196,3 +211,4 @@ def input_rab_kumulatif(driver, address, dataset_per_proyek):
             print("Merefresh halaman dan mencoba input ulang...")
             driver.refresh()
             time.sleep(1) # Tunggu sejenak setelah refresh agar script siap membaca ulang web
+    return pesan_tambahan

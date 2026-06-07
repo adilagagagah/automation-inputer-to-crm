@@ -131,7 +131,9 @@ def main():
             print(f"Mulai input data untuk seluruh bulan...")
 
             # Input data setiap bulan
-            input_data_proyek(driver, dataset_per_proyek)
+            pesan_input = input_data_proyek(driver, dataset_per_proyek)
+            if pesan_input:
+                pesan_mismatch = (pesan_mismatch + " | " + pesan_input) if pesan_mismatch else pesan_input
             catat_proyek_done(proyek_done_file, target_proyek, pesan_mismatch)
             updated_count += 1
         
