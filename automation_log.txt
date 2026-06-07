@@ -256,3 +256,22 @@ Detail Proyek Dilewati (Skipped):
 - Proyek: Beban Tetap 328
 ==========================================
 
+==========================================
+PROSES SELESAI! Seluruh data proyek telah diinput.
+Sumber File Excel  : private/REAL_RKAP.xlsx
+Sumber Sheet       : SIJAK
+Waktu Mulai        : 2026-06-07 11:22:14
+Waktu Selesai      : 2026-06-07 11:43:36
+Total Durasi       : 0:21:22
+Total Proyek       : 78
+Berhasil Diupdate  : 74
+Proyek Dilewati    : 4
+Portofolio Mismatch: 0
+
+Detail Proyek Dilewati (Skipped):
+- Proyek: Jasa Cargo Monitoring Load Transport Unload BBM Menggunakan Moda Transportasi Kapal Tahun 2025 453
+- Proyek: Stock Opname 454
+- Proyek: QnQ Survey Mineral & Batubara 455 | Keterangan: Proyek desentralisasi
+- Proyek: Beban Tetap 496
+==========================================
+
