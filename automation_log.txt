@@ -275,3 +275,22 @@ Detail Proyek Dilewati (Skipped):
 - Proyek: Beban Tetap 496
 ==========================================
 
+==========================================
+PROSES SELESAI! Seluruh data proyek telah diinput.
+Sumber File Excel  : private/REAL_RKAP.xlsx
+Sumber Sheet       : SICEH
+Waktu Mulai        : 2026-06-07 12:58:50
+Waktu Selesai      : 2026-06-07 13:11:10
+Total Durasi       : 0:12:20
+Total Proyek       : 73
+Berhasil Diupdate  : 69
+Proyek Dilewati    : 4
+Portofolio Mismatch: 0
+
+Detail Proyek Dilewati (Skipped):
+- Proyek: Provision of Land 3D Seismic Acquisition AOB Extension 240 Km2 WKB 69 | Keterangan: Proyek desentralisasi
+- Proyek: Q&Q Komoditi Mineral dan Batubara 70 | Keterangan: Proyek desentralisasi
+- Proyek: Jasa Cargo Monitoring Load Transport Unload BBM Menggunakan Moda Transportasi Kapal Tahun 2025 125 | Keterangan: Proyek desentralisasi
+- Proyek: Beban Tetap 141
+==========================================
+
