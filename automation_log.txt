@@ -294,3 +294,21 @@ Detail Proyek Dilewati (Skipped):
 - Proyek: Beban Tetap 141
 ==========================================
 
+==========================================
+PROSES SELESAI! Seluruh data proyek telah diinput.
+Sumber File Excel  : private/REAL_RKAP.xlsx
+Sumber Sheet       : GNI
+Waktu Mulai        : 2026-06-08 08:41:27
+Waktu Selesai      : 2026-06-08 08:48:07
+Total Durasi       : 0:06:40
+Total Proyek       : 34
+Berhasil Diupdate  : 31
+Proyek Dilewati    : 3
+Portofolio Mismatch: 0
+
+Detail Proyek Dilewati (Skipped):
+- Proyek: Verifikasi Dalam Rangka Subsidi Motor Listrik 147
+- Proyek: Verifikasi Dalam Rangka Impor CBU Mobil EV 148
+- Proyek: Beban Tetap 175
+==========================================
+
