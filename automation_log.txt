@@ -329,3 +329,35 @@ Detail Proyek Dilewati (Skipped):
 - Proyek: Beban Tetap 560
 ==========================================
 
+==========================================
+PROSES SELESAI! Seluruh data proyek telah diinput.
+Sumber File Excel  : private/REAL_RKAP.xlsx
+Sumber Sheet       : INS
+Waktu Mulai        : 2026-06-08 09:54:25
+Waktu Selesai      : 2026-06-08 09:56:35
+Total Durasi       : 0:02:09
+Total Proyek       : 13
+Berhasil Diupdate  : 12
+Proyek Dilewati    : 1
+Portofolio Mismatch: 0
+
+Detail Proyek Dilewati (Skipped):
+- Proyek: Beban Tetap 64
+==========================================
+
+==========================================
+PROSES SELESAI! Seluruh data proyek telah diinput.
+Sumber File Excel  : private/REAL_RKAP.xlsx
+Sumber Sheet       : OGR
+Waktu Mulai        : 2026-06-08 10:22:29
+Waktu Selesai      : 2026-06-08 10:30:29
+Total Durasi       : 0:08:00
+Total Proyek       : 38
+Berhasil Diupdate  : 37
+Proyek Dilewati    : 1
+Portofolio Mismatch: 0
+
+Detail Proyek Dilewati (Skipped):
+- Proyek: Beban Tetap 662
+==========================================
+
