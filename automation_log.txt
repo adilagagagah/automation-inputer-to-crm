@@ -361,3 +361,24 @@ Detail Proyek Dilewati (Skipped):
 - Proyek: Beban Tetap 662
 ==========================================
 
+==========================================
+PROSES SELESAI! Seluruh data proyek telah diinput.
+Sumber File Excel  : private/REAL_RKAP.xlsx
+Sumber Sheet       : DESEN_OGR
+Waktu Mulai        : 2026-06-15 08:33:04
+Waktu Selesai      : 2026-06-15 08:38:59
+Total Durasi       : 0:05:55
+Total Proyek       : 13
+Berhasil Diupdate  : 7
+Proyek Dilewati    : 6
+Portofolio Mismatch: 0
+
+Detail Proyek Dilewati (Skipped):
+- Proyek: Provision of Land 3D Seismic Acquisition Bireuen - Sigli 4000 Kmsq 108 | Keterangan: Proyek desentralisasi
+- Proyek: Desentralisasi Pekerjaan Cargo Monitoring DBS OGR (HO Makassar) 287
+- Proyek: Desentralisasi Pekerjaan Cargo Monitoring DBS OGR (RO Kendari) 288
+- Proyek: Desentralisasi Pekerjaan Cargo Monitoring DBS OGR (RO Morowali) 289
+- Proyek: Desentralisasi Pekerjaan Cargo Monitoring DBS OGR (RO Sorong) 290
+- Proyek: Desentralisasi Pekerjaan Cargo Monitoring DBS OGR (RO Ternate) 291
+==========================================
+
